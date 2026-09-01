@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.idea/
+.vscode/
+.qoder/
+.DS_Store
+Thumbs.db
+*.zip
+*.tar.gz
+.venv/
+venv/
+dist/
+*.egg-info/
+node_modules/
+.env
+.env.*

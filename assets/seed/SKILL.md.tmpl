@@ -1,0 +1,28 @@
+---
+name: __NAME__
+description: >
+  __DESCRIPTION__
+---
+
+# __DISPLAY_NAME__（__NAME__）
+
+## 身份
+
+__DESCRIPTION__
+
+## 工作区
+
+打开本 Skill 所服务的工作目录。本文件是给 Agent 读的入口，细则放 `references/`。
+
+## 路由
+
+| 用户信号 | 加载 |
+|---|---|
+| （按实际能力填写触发说法） | `references/` 下对应文件 |
+
+细则未写之前：先问用户这个 Skill 第一步要做什么，再把规则落到 `references/`，不要把长文写进本文件。
+
+## 硬闸
+
+1. 未确认的破坏性改动先问。
+2. 不要把 `governance/` 写进分发包（`governance/pack/pack.py` 已排除）。
