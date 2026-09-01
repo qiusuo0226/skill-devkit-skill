@@ -74,7 +74,7 @@ flowchart LR
 
 对话示例（Skill 名和人名是假的，问法是真的）：
 
-目录：[examples/](examples/)（7 篇）
+目录：[examples/](examples/README.md)（7 篇）
 
 建议先看 [01-初始化空文件夹.md](examples/01-初始化空文件夹.md)，再看 [06-初始化之后怎么打包.md](examples/06-初始化之后怎么打包.md)。
 
