@@ -28,7 +28,8 @@
 
 ## 仓库
 
-Gitee：[qiusuo0226/skill-devkit-skill](https://gitee.com/qiusuo0226/skill-devkit-skill)
+- GitHub：[qiusuo0226/skill-devkit-skill](https://github.com/qiusuo0226/skill-devkit-skill)
+- Gitee：[qiusuo0226/skill-devkit-skill](https://gitee.com/qiusuo0226/skill-devkit-skill)
 
 ## 它只做一件事
 
