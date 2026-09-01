@@ -55,7 +55,7 @@ flowchart LR
 | **变更门禁** | `governance/rules/skill-governance.md`、`AGENTS.md` | 先写 AP，人确认再改文件 |
 | **影响分析** | `governance/impact-analysis/` | 标契约层 / 规则层是否受影响 |
 | **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条 |
-| **打包发包** | `governance/pack/pack.py` | `{品牌}-Skill-v{版本}.zip`；不含治理目录 |
+| **打包发包** | `governance/pack/pack.py` | `{英文名}-Skill-v{版本}.zip`；不含治理目录 |
 | **发布审计** | `audit_release.py`、发布核对清单 | 版本一致、有基线、包内无治理目录 |
 | **升级方案** | `planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除 |
 | **一键脚本** | `governance/dev.ps1` | `sync` / `snapshot` / `audit` / `pack` / `release` |

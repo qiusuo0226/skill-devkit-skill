@@ -8,4 +8,4 @@ python governance/pack/pack.py --skill-root . --dry-run
 python governance/pack/pack.py --skill-root . --output-dir <目录>
 ```
 
-zip 名：`{displayName 品牌}-Skill-v{VERSION}.zip`。品牌取 `skill.json` 的 `displayName`（遇 `—` 或 `(` 截断）。版本优先读根目录 `VERSION`。
+zip 名：`{name}-Skill-v{VERSION}.zip`。`name` 取 `skill.json` 的英文名（小写字母、数字、连字符），不用中文显示名。版本优先读根目录 `VERSION`。

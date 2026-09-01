@@ -92,7 +92,7 @@ python governance/pack/pack.py --skill-root .
 python governance/pack/pack.py --skill-root . --dry-run
 ```
 
-zip 名 `{displayName 品牌}-Skill-v{VERSION}.zip`。默认不包含 `.git/`、`governance/`、`tests/`、`AGENTS.md`。
+zip 名 `{name}-Skill-v{VERSION}.zip`（英文名，不用中文显示名）。默认不包含 `.git/`、`governance/`、`tests/`、`AGENTS.md`。
 
 ## 11. 发布审计
 

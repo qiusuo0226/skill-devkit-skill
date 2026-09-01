@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Pack the Skill at --skill-root into {Brand}-Skill-v{version}.zip.
+"""Pack the Skill at --skill-root into {name}-Skill-v{version}.zip.
 
+Zip stem uses skill.json `name` (English slug), not displayName.
 Excludes: .git, governance, tests, __pycache__, zip artifacts.
 """
 import argparse
 import json
-import re
 import sys
 import zipfile
 from pathlib import Path
@@ -30,18 +30,17 @@ def read_version(root: Path) -> str:
     sys.exit(1)
 
 
-def read_brand(root: Path) -> str:
+def read_slug(root: Path) -> str:
     sj = root / "skill.json"
     if not sj.is_file():
         print("ERROR: skill.json missing", file=sys.stderr)
         sys.exit(1)
     data = json.loads(sj.read_text(encoding="utf-8"))
-    display = data.get("displayName") or data.get("name")
-    if not display:
-        print("ERROR: skill.json missing displayName/name", file=sys.stderr)
+    name = str(data.get("name") or "").strip()
+    if not name:
+        print("ERROR: skill.json missing 'name'", file=sys.stderr)
         sys.exit(1)
-    brand = re.split(r"[—\(]", display)[0].strip()
-    return brand or str(display).strip()
+    return name
 
 
 def excluded(rel: Path) -> bool:
@@ -66,12 +65,12 @@ def main() -> None:
         print(f"ERROR: SKILL.md not found in {root}", file=sys.stderr)
         sys.exit(1)
     version = read_version(root)
-    brand = read_brand(root)
+    slug = read_slug(root)
     out_dir = Path(args.output_dir).resolve() if args.output_dir else root
     out_dir.mkdir(parents=True, exist_ok=True)
-    zip_path = out_dir / f"{brand}-Skill-v{version}.zip"
+    zip_path = out_dir / f"{slug}-Skill-v{version}.zip"
     files = [f for f in root.rglob("*") if f.is_file() and not excluded(f.relative_to(root))]
-    print(f"{brand} v{version}: {len(files)} files -> {zip_path}")
+    print(f"{slug} v{version}: {len(files)} files -> {zip_path}")
     if args.dry_run:
         for f in files:
             print(" ", f.relative_to(root).as_posix())
