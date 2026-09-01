@@ -1,9 +1,9 @@
 {
   "name": "skill-devkit",
   "displayName": "Skill 开发工具包",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "schemaVersion": "0.1.0",
-  "description": "只在空文件夹或空 git 仓用一次：初始化带版本控制、基线、升级记录和打包的 Skill 开发仓。写完即退场。与业务项目管理无关。",
+  "description": "一次对话，把空文件夹变成能自己发版的 Skill 开发仓（版本、基线、升级记录、打包）。用一次即退场。不是业务项目管理。",
   "license": "MIT",
   "modes": [
     "author"
@@ -11,6 +11,11 @@
   "entry": "SKILL.md",
   "referencesDir": "references",
   "versionHistory": [
+    {
+      "version": "0.5.0",
+      "date": "2026-09-01",
+      "summary": "对外叙事：一次对话留下能自己发版的仓；dev.ps1；初始化结束跑审计。"
+    },
     {
       "version": "0.4.0",
       "date": "2026-09-01",

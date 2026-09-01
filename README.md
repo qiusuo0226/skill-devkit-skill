@@ -1,10 +1,21 @@
 # Skill 开发工具包（skill-devkit）
 
-**在空文件夹或空 git 仓里，用一次，留下一套能自己管版本的 Skill 开发仓。**
+**一次对话，空文件夹长成能自己发版的 Skill 仓。本包用完即走。**
 
-给 Skill 作者用。装进 AI 助手 → 新建空文件夹并选为工作区 → 说「初始化 skill」。问完名字和用途、你点头之后，它写下 `SKILL.md`、git，以及完整的 `governance/`：版本控制、基线快照、升级记录、打包发包，还有之后任何助手都要读的治理提示词。
+给 Skill 作者。装进助手，把工作区指到一个空文件夹，说「初始化 skill」。点头之后，这个文件夹里不再是空白：有可安装的 `SKILL.md`，有 git，有版本号，有冻结基线，有升级记录，有打包和审计，还有一份以后任何助手改这个 Skill 都要遵守的治理提示词。
 
-**写完本包就退场。** 那个仓以后的升版本、打基线、记升级、打 zip，都走它自己的文件和提示词，不再经过本包，本包也不再识别或控制它。这就是本包的用法：只用一次。
+**写完本包就退场。** 升版本、打基线、记升级、打 zip，都走这个文件夹自己的文件——不再经过本包，本包也不再认出它。魅力就是：用一次。
+
+## 和一篇 SKILL.md 脚手架差在哪
+
+| | 普通「创建 Skill」 | 本包初始化 |
+|---|---|---|
+| 留下什么 | 一篇 `SKILL.md`，偶尔再加 scripts | 完整开发仓 |
+| 版本 | 往往写死在文件里 | 根目录 `VERSION` 单一来源，可同步 |
+| 基线 | 无 | 每版一份冻结快照，只增不改 |
+| 升级 | 靠聊天记忆 | AP → 确认 → CR → 记录 → tag |
+| 发包 | 手搓 zip | 一键打包，治理目录不进包 |
+| 本包还管不管 | 常常一直赖在对话里 | **不管了** |
 
 不是业务项目管理，不是万能工具箱。ChronoPM 的变更治理是种子里借鉴的流程，不是本仓的一部分。
 
@@ -31,24 +42,23 @@ flowchart LR
 
 | 能力 | 落在哪 | 做什么 |
 |---|---|---|
-| **版本控制** | 根目录 `VERSION`（唯一可读源）、`skill.json`、git、`governance/scripts/sync_version.py` | 先改 `VERSION`，再同步；git 在仓根，不在 `governance/` 里 |
-| **基线控制** | `governance/baselines/{版本}/`、`snapshot_baseline.py` | 每个发布版本一份分发包快照；只增不改；回滚对照上一版 |
-| **升级记录** | `CHANGELOG.md`、`change-requests/`、`migrations/upgrade-to-{版本}.md`、git tag `v{版本}` | 每次发版留下可追溯记录；默认无工作区迁移 |
-| **变更门禁** | `governance/rules/skill-governance.md`、`AGENTS.md` | 先写 AP，人确认再改文件；即使用户说「直接改」也先出方案 |
-| **影响分析** | `governance/impact-analysis/` | 准许执行后写 IA，标契约层 / 规则层是否受影响 |
-| **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条，写入 RR |
-| **打包发包** | `governance/pack/pack.py` | `{品牌}-Skill-v{版本}.zip`；不含 `governance/`、`.git/`、`AGENTS.md` |
-| **发布审计** | `audit_release.py`、`review-checklists/release-checklist.md` | 版本三处一致、有基线、包内无治理目录；失败不准发 |
-| **升级方案** | `governance/planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除（思路进 CR / CHANGELOG / 基线） |
-| **仓骨架** | `SKILL.md`、`references/`、`LICENSE`、`README.md` | 可安装的 Skill 入口；MIT（可在确认清单里改） |
+| **版本控制** | 根目录 `VERSION`（唯一可读源）、`skill.json`、git、`sync_version.py` | 先改 `VERSION`，再同步；git 在仓根 |
+| **基线控制** | `governance/baselines/{版本}/`、`snapshot_baseline.py` | 每个发布版本一份分发包快照；只增不改 |
+| **升级记录** | `CHANGELOG.md`、CR、`upgrade-to-{版本}.md`、git tag `v{版本}` | 每次发版可追溯；默认无工作区迁移 |
+| **变更门禁** | `governance/rules/skill-governance.md`、`AGENTS.md` | 先写 AP，人确认再改文件 |
+| **影响分析** | `governance/impact-analysis/` | 标契约层 / 规则层是否受影响 |
+| **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条 |
+| **打包发包** | `governance/pack/pack.py` | `{品牌}-Skill-v{版本}.zip`；不含治理目录 |
+| **发布审计** | `audit_release.py`、发布核对清单 | 版本一致、有基线、包内无治理目录 |
+| **升级方案** | `planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除 |
+| **一键脚本** | `governance/dev.ps1` | `sync` / `snapshot` / `audit` / `pack` / `release` |
+| **仓骨架** | `SKILL.md`、`references/`、`LICENSE`、`README.md` | 可安装的 Skill 入口 |
 
 对已初始化的仓说：
 
 ```text
 按 governance/rules/skill-governance.md 处理，不要直接改。先出 AP。
 ```
-
-不要再对本包说「升级」「你是 Agent A」。
 
 ## 看一段真实怎么问
 
@@ -65,7 +75,7 @@ flowchart LR
 | 「初始化 skill」 | 确认是空目录后，问英文名、干什么、显示名、版权；清单确认后写盘 |
 | 「开发一个 skill，英文名 meeting-notes，把纪要收成行动项」 | 已说的不问，只补缺的 |
 | 「把这个文件夹初始化成 skill」（目录非空） | **停止**，请换空文件夹 |
-| 「再初始化」（已有 `SKILL.md`） | **停止**。指你去读仓里的 `governance/rules/skill-governance.md` |
+| 「再初始化」（已有 `SKILL.md`） | **停止**。指你去读仓里的治理提示词 |
 | （初始化之后）「把版本升到 0.2.0 再打包」 | **不要对本包说。** 工作区换成那个 Skill 文件夹 |
 
 同义口令：`开发一个 skill`、`新建技能`、`从零写 skill`、`脚手架`、`init skill`、`/init-skill`、`/new-skill`。
@@ -95,9 +105,9 @@ flowchart LR
 └── governance/           # 不进分发包
     ├── rules/skill-governance.md
     ├── baselines/0.1.0/
-    ├── migrations/
+    ├── dev.ps1
     ├── pack/pack.py
-    └── scripts/          # sync_version / snapshot_baseline / audit_release
+    └── scripts/
 ```
 
 完整树和提问顺序见 `references/01-init.md`。
@@ -110,11 +120,11 @@ skill-devkit/
 ├── skill.json
 ├── VERSION
 ├── CHANGELOG.md
-├── references/           # 本包规则（只服务「用一次」的初始化）
-├── assets/seed/          # 拷到目标仓的种子
+├── references/
+├── assets/seed/
 ├── assets/templates/
 ├── examples/
-├── governance/planning/  # 仅本包作者自己用
+├── governance/planning/
 └── README.md
 ```
 

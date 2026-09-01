@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.5.0 — 2026-09-01
+
+对外叙事改成「一次对话，空仓变成能自己发版的 Skill；用完即走」。初始化确认清单宣读能力；结束时跑发布审计；目标仓增加 `governance/dev.ps1`。
+
+### Changed
+
+- `SKILL.md` / README / `skill.json` 简介：不再用「改 Skill、写方案、发版」的常驻工具箱口吻
+- README 增加与普通 SKILL.md 脚手架的对照表
+
+### Added
+
+- 目标仓 `governance/dev.ps1`（sync / snapshot / audit / pack / release）
+- 初始化写完后跑 `audit_release.py` 并汇报
+
 ## 0.4.0 — 2026-09-01
 
 只允许空文件夹或空 git 仓初始化（用一次）。目标仓写入完整治理：版本控制、基线、升级记录、打包、审计，以及本地提示词。README 增加功能清单。

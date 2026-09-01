@@ -1,9 +1,9 @@
 ---
 name: skill-devkit
 description: >
-  Skill 开发工具包。只在空文件夹或空 git 仓用一次：初始化完整 Skill 开发仓
-  （git、版本控制、基线、升级记录、打包发包、以及之后 Agent 要读的治理提示词）。
-  写完即退场；之后版本/基线/发版由目标仓自己的 governance/ 文件和提示词执行，本包不再识别或接管。
+  一次对话，把空文件夹变成能自己发版的 Skill 开发仓：git、版本号、冻结基线、
+  升级记录、打包 zip、发布审计，外加以后任何助手都要遵守的治理提示词。
+  用一次即退场，不盘踞你的项目；之后升版本、打基线、发包都走这个文件夹自己的文件。
   触发：初始化skill、初始化技能、初始化一个skill、初始化这个skill、初始化技能仓库、
   初始化开发仓、初始化当前目录、把这个文件夹初始化成skill、把当前目录初始化为skill、
   在这个目录开发skill、空目录初始化skill、开发一个skill、开发一个技能、开发新skill、
@@ -13,24 +13,24 @@ description: >
   init skill、initialize skill、scaffold skill、bootstrap skill、create a skill、
   new skill、develop a skill、start a skill、/skill-devkit、/skill-devkit init、
   /init-skill、/new-skill。
-  只用于空文件夹或空仓。不要用于非空目录、已有 Skill 升级发版、项目日报待办周报。
+  只用于空文件夹或空 git 仓。不要用于非空目录、已有 Skill 的升级发版、项目日报待办周报。
 metadata:
-  short-description: "空仓初始化 Skill 开发仓（用一次）"
+  short-description: "一次对话，空仓变成能自己发版的 Skill"
 ---
 
 # Skill 开发工具包（skill-devkit）
 
-给 **Skill 作者**用。只做一件事：在**空文件夹或空 git 仓**里初始化 Skill 开发仓。
+**一次对话，空文件夹长成能自己发版的 Skill 仓。本包用完即走。**
 
-写进目标仓的不只是 `SKILL.md`，还包括版本控制、基线快照、升级记录、打包发包，以及 `governance/rules/skill-governance.md`（之后任何助手改这个 Skill 都读它）。**本包用一次。** 之后不要再让本包识别或控制那个仓。
+别的脚手架只丢一篇 `SKILL.md`。这里留下版本号、冻结基线、升级记录、打包脚本，和一份之后任何助手改这个 Skill 都要读的治理提示词——然后 skill-devkit 从故事里消失。
 
-不是业务项目管理。ChronoPM 的治理流程是种子的参考，不引用其路径。
+只在**空文件夹或空 git 仓**用。不是业务项目管理，不是常驻升级引擎，不是万能技能合集。
 
-用法对话见仓库 `examples/`。初始化后目标仓自带的能力见 README 功能清单。
+用法见 `examples/`。初始化后仓内能力见 README 清单。
 
 ## 工作区
 
-打开**空的**那个文件夹当工作区。本 Skill 装在用户级（如 `~/.grok/skills/skill-devkit/`）。禁止把业务项目的 `ai/` 当成 Skill 根。禁止在非空目录初始化。
+打开**空的**那个文件夹。本包装在用户级（如 `~/.grok/skills/skill-devkit/`）。禁止把业务项目的 `ai/` 当 Skill 根。禁止在非空目录初始化。
 
 ## 路由
 
@@ -41,7 +41,7 @@ metadata:
 | 初始化 / 开发一个 skill / 新建 / 创建 / 从零 / 脚手架 / 骨架 / init / scaffold / bootstrap / `/skill-devkit` / `/init-skill` / `/new-skill` | 空（或仅 `.git` / `.DS_Store` / `Thumbs.db`） | `references/01-init.md` |
 | 同上 | 已有 `SKILL.md` | `references/01-init.md` §2（停止，指本地治理提示词） |
 | 同上 | 非空 | `references/01-init.md` §2（停止，换空文件夹） |
-| 升级 / 你是 Agent A / 写 AP / 打基线 / 发版 | 任意 | 停止。本包不做这些。已初始化的仓读它自己的 `governance/rules/skill-governance.md` |
+| 升级 / 你是 Agent A / 写 AP / 打基线 / 发版 | 任意 | 停止。已初始化的仓读它自己的 `governance/rules/skill-governance.md` |
 
 硬闸见 `references/00-core.md`。流程正文只在 `01-init.md`。
 

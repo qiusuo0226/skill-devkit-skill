@@ -44,8 +44,8 @@
 - 中文 README
 - `git init`（工作区根；已有 `.git` 则跳过）
 - 首提交
-- 建 `governance/`（版本控制、基线、升级记录、打包、治理提示词）
-- 打 `0.1.0` 基线快照
+- 建 `governance/`，并写入这些能力（之后不靠本包）：版本控制、基线控制、升级记录、变更门禁、影响分析、回归、打包发包、发布审计
+- 打 `0.1.0` 基线快照，跑一遍发布审计
 - 远程 URL：默认无。用户给出再 `git remote add`，不主动 push
 - 草拟的 `SKILL.md` `description`（含触发）。用户可改
 
@@ -83,6 +83,7 @@
     ├── review-checklists/release-checklist.md
     ├── templates/               # AP / CR / IA / RR / upgrade-to
     ├── pack/pack.py
+    ├── dev.ps1                  # sync / snapshot / audit / pack / release
     └── scripts/                 # sync_version / snapshot_baseline / audit_release
 ```
 
@@ -112,6 +113,7 @@
 | `assets/seed/baselines-README.md` | `governance/baselines/README.md` |
 | `assets/seed/migrations-README.md` | `governance/migrations/README.md` |
 | `assets/seed/pack-README.md` | `governance/pack/README.md` |
+| `assets/seed/dev.ps1` | `governance/dev.ps1` |
 | `assets/seed/pack.py` | `governance/pack/pack.py` |
 | `assets/seed/sync_version.py` | `governance/scripts/sync_version.py` |
 | `assets/seed/snapshot_baseline.py` | `governance/scripts/snapshot_baseline.py` |
@@ -125,7 +127,10 @@
 
 `SKILL.md.tmpl` 的 `__DESCRIPTION__` 必须是清单里确认过的那段。`skill.json` 的 description 做成合法 JSON 字符串。`SKILL.md` front matter 换行用 YAML `>` 并保持缩进。文本 UTF-8。先建目录再写文件。
 
-写完后在工作区根执行：`python governance/scripts/snapshot_baseline.py`（生成 `governance/baselines/0.1.0/`）。失败则按 `pack.py` 的排除规则手工拷贝分发包会包含的文件到该目录，并说明。不要覆盖已有基线目录。
+写完后在工作区根执行：
+
+1. `python governance/scripts/snapshot_baseline.py`（生成 `governance/baselines/0.1.0/`）。失败则按 `pack.py` 排除规则手工拷贝，并说明。不要覆盖已有基线目录。
+2. `python governance/scripts/audit_release.py`。把通过/失败项告诉用户。失败不回滚已写文件，列出失败项。
 
 ## 6. Git
 
@@ -140,11 +145,13 @@
 
 ## 7. 写完对外说什么
 
-- 根路径、英文名、显示名、版本 `0.1.0`，已有 `0.1.0` 基线
-- **本包对这个文件夹的工作结束，只用了一次。**
-- 以后改这个 Skill：工作区仍是本文件夹，对助手说「按 `governance/rules/skill-governance.md` 处理，不要直接改」
-- 不必再调用 skill-devkit，也不要对本包说升级 / Agent A
-- 打包 / 升版本 / 打基线 / 审计命令见 `governance/README.md`
+先用一两句话说清：空仓已经变成能自己发版的开发仓，本包退场。
+
+然后列出：根路径、英文名、显示名、版本 `0.1.0`、基线已打、审计通过与否。
+
+- 以后改这个 Skill：对助手说「按 `governance/rules/skill-governance.md` 处理，不要直接改」
+- 不必再调用 skill-devkit
+- 打包：`powershell -File governance/dev.ps1 pack`
 - 试用须用户明确要求，才拷到 `~/.grok/skills/<name>/`
 - 下一步：把 `SKILL.md` 路由和 `references/` 写成这个 Skill 真正要做的事
 

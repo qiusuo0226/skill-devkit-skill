@@ -25,6 +25,8 @@ python governance/scripts/sync_version.py
 python governance/scripts/snapshot_baseline.py
 python governance/scripts/audit_release.py
 python governance/pack/pack.py --skill-root .
+powershell -File governance/dev.ps1 pack
+powershell -File governance/dev.ps1 release
 ```
 
 `governance/` 默认不打进分发包。新仓默认没有工作区 schema；真要给终端用户迁数据时再加。
