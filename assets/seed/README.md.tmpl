@@ -4,14 +4,14 @@ __DESCRIPTION__
 
 ## 开发
 
-本目录是 Skill **开发仓**。版本控制、升级方案和打包在 `governance/`（不进分发包）。
+本目录是 Skill **开发仓**。版本控制、基线、升级记录和打包都在 `governance/`（不进分发包）。改本 Skill 时让助手读 `governance/rules/skill-governance.md`，不必再调用 skill-devkit。
 
 ```
 python governance/scripts/sync_version.py
+python governance/scripts/snapshot_baseline.py
+python governance/scripts/audit_release.py
 python governance/pack/pack.py --skill-root .
 ```
-
-升版本、打包用本目录的 `governance/`，不必再调用 skill-devkit。
 
 ## 许可证
 

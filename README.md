@@ -1,12 +1,12 @@
 # Skill 开发工具包（skill-devkit）
 
-**把空文件夹变成一套能开发、能版本控制、能打包的 Skill 仓。初始化完，本包就退场。**
+**在空文件夹或空 git 仓里，用一次，留下一套能自己管版本的 Skill 开发仓。**
 
-给 Skill 作者用。装进 AI 助手之后，你新建一个文件夹、把工作区指过去，说「初始化 skill」——它问名字和用途，点头后在这个文件夹里写下 `SKILL.md`、git，以及完整的 `governance/`（方案模板、版本号同步、打包脚本）。
+给 Skill 作者用。装进 AI 助手 → 新建空文件夹并选为工作区 → 说「初始化 skill」。问完名字和用途、你点头之后，它写下 `SKILL.md`、git，以及完整的 `governance/`：版本控制、基线快照、升级记录、打包发包，还有之后任何助手都要读的治理提示词。
 
-初始化一旦结束，版本控制已经在**那个新仓**里。之后改规则、升版本、打 zip，都不必再打开本包。本包不管已有 Skill 的升级，也不给终端用户做自动升级。
+**写完本包就退场。** 那个仓以后的升版本、打基线、记升级、打 zip，都走它自己的文件和提示词，不再经过本包，本包也不再识别或控制它。这就是本包的用法：只用一次。
 
-不是业务项目管理，不是万能工具箱。ChronoPM 只是「向导怎么问人」的参考，不是本仓的一部分。
+不是业务项目管理，不是万能工具箱。ChronoPM 的变更治理是种子里借鉴的流程，不是本仓的一部分。
 
 ## 仓库
 
@@ -16,14 +16,39 @@ Gitee：[qiusuo0226/skill-devkit-skill](https://gitee.com/qiusuo0226/skill-devki
 
 ```mermaid
 flowchart LR
-    A["1 安装本包到助手"] --> B["2 新建空文件夹并选为工作区"]
+    A["1 安装本包"] --> B["2 空文件夹或空仓"]
     B --> C["3 说：初始化 skill"]
-    C --> D["4 问答 + 确认清单"]
+    C --> D["4 问答 + 确认"]
     D --> E["5 写出开发仓"]
-    E --> F["6 本包退场\n用新仓的 governance/"]
+    E --> F["6 本包退场"]
 ```
 
-不要指望它对已有 Skill 说「你是 Agent A」还能当升级引擎。那不是本包的工作。
+非空目录、已经有 `SKILL.md` 的仓：直接停止，不写盘。
+
+## 初始化后，开发仓自带这些能力
+
+下列能力写进目标仓的**文件和提示词**（主要在 `governance/`）。之后由那个仓的 Agent 执行，不经过本包。
+
+| 能力 | 落在哪 | 做什么 |
+|---|---|---|
+| **版本控制** | 根目录 `VERSION`（唯一可读源）、`skill.json`、git、`governance/scripts/sync_version.py` | 先改 `VERSION`，再同步；git 在仓根，不在 `governance/` 里 |
+| **基线控制** | `governance/baselines/{版本}/`、`snapshot_baseline.py` | 每个发布版本一份分发包快照；只增不改；回滚对照上一版 |
+| **升级记录** | `CHANGELOG.md`、`change-requests/`、`migrations/upgrade-to-{版本}.md`、git tag `v{版本}` | 每次发版留下可追溯记录；默认无工作区迁移 |
+| **变更门禁** | `governance/rules/skill-governance.md`、`AGENTS.md` | 先写 AP，人确认再改文件；即使用户说「直接改」也先出方案 |
+| **影响分析** | `governance/impact-analysis/` | 准许执行后写 IA，标契约层 / 规则层是否受影响 |
+| **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条，写入 RR |
+| **打包发包** | `governance/pack/pack.py` | `{品牌}-Skill-v{版本}.zip`；不含 `governance/`、`.git/`、`AGENTS.md` |
+| **发布审计** | `audit_release.py`、`review-checklists/release-checklist.md` | 版本三处一致、有基线、包内无治理目录；失败不准发 |
+| **升级方案** | `governance/planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除（思路进 CR / CHANGELOG / 基线） |
+| **仓骨架** | `SKILL.md`、`references/`、`LICENSE`、`README.md` | 可安装的 Skill 入口；MIT（可在确认清单里改） |
+
+对已初始化的仓说：
+
+```text
+按 governance/rules/skill-governance.md 处理，不要直接改。先出 AP。
+```
+
+不要再对本包说「升级」「你是 Agent A」。
 
 ## 看一段真实怎么问
 
@@ -37,41 +62,28 @@ flowchart LR
 
 | 你说 | 它做 |
 |---|---|
-| 「初始化 skill」 | 一次一项问英文名、干什么、显示名、版权；清单确认后写盘 |
+| 「初始化 skill」 | 确认是空目录后，问英文名、干什么、显示名、版权；清单确认后写盘 |
 | 「开发一个 skill，英文名 meeting-notes，把纪要收成行动项」 | 已说的不问，只补缺的 |
-| 「把这个文件夹初始化成 skill」（目录非空） | 先列出已有文件，你同意才继续 |
-| 「再初始化」（已有 `SKILL.md`） | 拒绝。指你去用仓里的 `governance/` |
-| （初始化之后）「把版本升到 0.2.0 再打包」 | **不要对本包说。** 工作区换成那个 Skill 文件夹，用它自己的脚本 |
+| 「把这个文件夹初始化成 skill」（目录非空） | **停止**，请换空文件夹 |
+| 「再初始化」（已有 `SKILL.md`） | **停止**。指你去读仓里的 `governance/rules/skill-governance.md` |
+| （初始化之后）「把版本升到 0.2.0 再打包」 | **不要对本包说。** 工作区换成那个 Skill 文件夹 |
 
 同义口令：`开发一个 skill`、`新建技能`、`从零写 skill`、`脚手架`、`init skill`、`/init-skill`、`/new-skill`。
 
 ## 快速开始
 
 1. 把本仓复制到助手的技能目录，例如 `~/.grok/skills/skill-devkit/`。
-2. 新建一个**空文件夹**，把助手工作区指到那里（不要指到本仓上）。
+2. 新建一个**空文件夹**（或空 git 仓），把助手工作区指到那里（不要指到本仓上）。
 3. 说：「初始化 skill」。
 4. 问完确认清单，说「按这个写」。
-5. 之后开发、升版本、打包都在那个新文件夹里进行，不再调用本包。
-
-打包（在**目标仓**里，不是在本仓里）：
-
-```
-python governance/pack/pack.py --skill-root .
-```
-
-升版本：改目标仓根目录 `VERSION`，再：
-
-```
-python governance/scripts/sync_version.py
-```
+5. 之后只在那个新文件夹里开发。本包不再出现。
 
 ## 初始化会写出什么
 
-工作区根上是 Skill 正文和 git（`.git` 在根上）。版本控制全部在 `governance/`：
-
 ```
 {你的新文件夹}/
-├── .git/                 # 根上，不在 governance/ 里
+├── .git/
+├── AGENTS.md             # 开发提示，不进 zip
 ├── SKILL.md
 ├── skill.json
 ├── VERSION               # 0.1.0
@@ -79,13 +91,16 @@ python governance/scripts/sync_version.py
 ├── LICENSE
 ├── README.md
 ├── references/
-└── governance/           # 版本控制与打包，不进分发包
+├── tests/
+└── governance/           # 不进分发包
+    ├── rules/skill-governance.md
+    ├── baselines/0.1.0/
+    ├── migrations/
     ├── pack/pack.py
-    ├── scripts/sync_version.py
-    └── templates/
+    └── scripts/          # sync_version / snapshot_baseline / audit_release
 ```
 
-完整树和提问顺序见 `references/01-init.md`。种子在 `assets/seed/`。
+完整树和提问顺序见 `references/01-init.md`。
 
 ## 本仓结构
 
@@ -95,11 +110,11 @@ skill-devkit/
 ├── skill.json
 ├── VERSION
 ├── CHANGELOG.md
-├── references/           # 本包规则（给运行本 Skill 的 Agent 读）
-├── assets/seed/          # 初始化时拷到目标仓
+├── references/           # 本包规则（只服务「用一次」的初始化）
+├── assets/seed/          # 拷到目标仓的种子
 ├── assets/templates/
-├── examples/             # 对话示例
-├── governance/planning/  # 仅本包作者自己用，不面向使用者升级
+├── examples/
+├── governance/planning/  # 仅本包作者自己用
 └── README.md
 ```
 

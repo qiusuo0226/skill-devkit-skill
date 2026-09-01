@@ -11,7 +11,7 @@ import zipfile
 from pathlib import Path
 
 EXCLUDE_DIRS = {".git", "governance", "tests", "__pycache__", ".idea", ".vscode", ".qoder"}
-EXCLUDE_FILES = {".gitignore", ".DS_Store", "Thumbs.db"}
+EXCLUDE_FILES = {".gitignore", ".DS_Store", "Thumbs.db", "AGENTS.md"}
 EXCLUDE_EXTS = {".pyc", ".pyo", ".zip", ".tar", ".gz"}
 
 

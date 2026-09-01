@@ -1,6 +1,6 @@
 # pack/
 
-把 Skill 打成分发包 zip。默认排除 `.git`、`governance/`、`tests/`、缓存和压缩包。
+把 Skill 打成分发包 zip。默认排除 `.git`、`governance/`、`tests/`、`AGENTS.md`、缓存和压缩包。
 
 ```
 python governance/pack/pack.py --skill-root .
