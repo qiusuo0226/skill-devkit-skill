@@ -2,6 +2,8 @@
 
 **空仓一次初始化：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。**
 
+> Empty-folder initializer for Agent Skills. One conversation writes a self-releasing skill repo (versioning, frozen baselines, changelog, change gates, pack/audit), then this kit exits.
+
 给 Skill 作者。装进助手，工作区指到空文件夹，说「初始化 skill」。一次对话写入：
 
 - **版本控制** — 根目录 `VERSION` + git，可同步到 `skill.json`
@@ -30,6 +32,16 @@
 
 - GitHub：[qiusuo0226/skill-devkit-skill](https://github.com/qiusuo0226/skill-devkit-skill)
 - Gitee：[qiusuo0226/skill-devkit-skill](https://gitee.com/qiusuo0226/skill-devkit-skill)
+
+## 安装
+
+```bash
+npx skills add qiusuo0226/skill-devkit-skill
+```
+
+或把本仓复制到助手的技能目录，例如 `~/.grok/skills/skill-devkit/`。装好后，工作区指到**空文件夹**，说「初始化 skill」。
+
+[![skills.sh](https://skills.sh/b/qiusuo0226/skill-devkit-skill)](https://skills.sh/qiusuo0226/skill-devkit-skill)
 
 ## 它只做一件事
 
@@ -92,7 +104,7 @@ flowchart LR
 
 ## 快速开始
 
-1. 把本仓复制到助手的技能目录，例如 `~/.grok/skills/skill-devkit/`。
+1. 安装：`npx skills add qiusuo0226/skill-devkit-skill`，或把本仓复制到助手的技能目录，例如 `~/.grok/skills/skill-devkit/`。
 2. 新建一个**空文件夹**（或空 git 仓），把助手工作区指到那里（不要指到本仓上）。
 3. 说：「初始化 skill」。
 4. 问完确认清单，说「按这个写」。

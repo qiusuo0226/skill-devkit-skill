@@ -1,6 +1,9 @@
 ---
 name: skill-devkit
 description: >
+  Empty-folder initializer for an Agent Skill repo: versioning, frozen
+  baselines, changelog/CR, change gates, trigger phrases, pack and release
+  audit. Use once on an empty folder, then this kit exits.
   空文件夹一次初始化 Skill 开发仓。覆盖：版本控制（VERSION+git）、冻结基线、
   升级记录（CHANGELOG/CR/upgrade-to/tag）、变更门禁（先方案后改文件）、
   影响分析与回归、触发词写入 description、英文名占用检查、一键打包与发布审计。
