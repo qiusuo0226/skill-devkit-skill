@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "schemaVersion": "0.1.0",
   "description": "给 Skill 作者改规则、写升级方案、审方案、定版本、打基线、发版。与业务项目管理无关。",
+  "license": "MIT",
   "modes": [
     "author"
   ],

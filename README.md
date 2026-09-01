@@ -19,6 +19,10 @@ skill-devkit/
 
 目标仓（被升级的那个 Skill）不在本目录里。用法：打开目标仓当工作区，本包安装到 `~/.grok/skills/skill-devkit/`。
 
+## 许可证
+
+[MIT](LICENSE) © 2026 仇索
+
 ## 斜杠
 
 `/skill-devkit`

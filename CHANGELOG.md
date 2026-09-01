@@ -9,3 +9,4 @@
 - `SKILL.md` 路由与硬闸
 - `references/00-core.md`
 - `governance/planning/`（方案草稿位）
+- MIT 许可证
