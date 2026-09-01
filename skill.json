@@ -1,0 +1,19 @@
+{
+  "name": "skill-devkit",
+  "displayName": "Skill 开发工具包",
+  "version": "0.1.0",
+  "schemaVersion": "0.1.0",
+  "description": "给 Skill 作者改规则、写升级方案、审方案、定版本、打基线、发版。与业务项目管理无关。",
+  "modes": [
+    "author"
+  ],
+  "entry": "SKILL.md",
+  "referencesDir": "references",
+  "versionHistory": [
+    {
+      "version": "0.1.0",
+      "date": "2026-09-01",
+      "summary": "开发仓骨架。独立于 ChronoPM。升级协议全文尚未迁入。"
+    }
+  ]
+}
