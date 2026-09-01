@@ -14,7 +14,7 @@
 
 | 状况 | 动作 |
 |---|---|
-| 已有 `SKILL.md` | **禁止再初始化**。说明这里已经是 Skill。问：要改规则或升级请说「你是 Agent A」+ 需求 |
+| 已有 `SKILL.md` | **禁止再初始化**。说明这里已经是 Skill 开发仓，版本控制在本文件夹的 `governance/`（若还没有，那是残缺仓，问用户要不要只补 `governance/`，不要整仓重做）。本包不做升级。 |
 | 非空（有其它文件）且无 `SKILL.md` | 列出已有文件，问能否在此初始化，须明确同意才继续提问 |
 | 空，或仅有无关的 `.DS_Store` / `Thumbs.db` | 进入提问 |
 
@@ -142,10 +142,10 @@
 ## 7. 写完对外说什么
 
 - 根路径、英文名、显示名、版本 `0.1.0`
-- `governance/` 是版本控制与发版目录，默认不进 zip
+- `governance/` 已是完整版本控制与发版目录，默认不进 zip
+- **本包对这个文件夹的工作结束。** 以后改规则、升版本、打包都不必再调用 skill-devkit
 - 打包：`python governance/pack/pack.py --skill-root .`
 - 升版本：改根目录 `VERSION`，再 `python governance/scripts/sync_version.py`
-- 以后改这个 Skill：工作区仍是本文件夹，说「你是 Agent A」+ 需求
 - 试用：须用户明确要求，才复制/安装到 `~/.grok/skills/<name>/`
 - 建议下一步：把 `SKILL.md` 路由和 `references/` 细则写成这个 Skill 真正要做的事
 

@@ -1,63 +1,61 @@
 ---
 name: skill-devkit
 description: >
-  Skill 开发工具包。给 Skill 作者用：在空文件夹初始化完整开发仓（含 git 与版本控制目录），
-  或给已有 Skill 写升级方案、A/B 审核、定版本、打基线、打包发版。
-  初始化触发：初始化skill、初始化技能、初始化一个skill、初始化这个skill、初始化技能仓库、
+  Skill 开发工具包。给 Skill 作者用：在空文件夹初始化完整开发仓（含 git 与版本控制目录）。
+  初始化完成后版本控制已在目标仓的 governance/ 里，不必再调用本包；本包不管已有 Skill 的升级，
+  也不给终端用户做自动升级。
+  触发：初始化skill、初始化技能、初始化一个skill、初始化这个skill、初始化技能仓库、
   初始化开发仓、初始化当前目录、把这个文件夹初始化成skill、把当前目录初始化为skill、
   在这个目录开发skill、空目录初始化skill、开发一个skill、开发一个技能、开发新skill、
   开发新技能、开始开发skill、从零开发skill、从零写skill、开始写skill、新建skill、
   新建技能、创建skill、创建技能、创建新skill、创建新技能、建一个skill、搭一个skill、
   搭技能仓库、生成skill骨架、生成技能骨架、脚手架skill、新skill、新技能、
   init skill、initialize skill、scaffold skill、bootstrap skill、create a skill、
-  new skill、develop a skill、start a skill、/skill-devkit init、/init-skill、/new-skill。
-  升级触发：升级 Skill、你是 Agent A、你是 Agent B、写 AP、审核升级方案、Skill 发版、
-  打基线、/skill-devkit。
-  打开某个 Skill 代码仓或空的开发文件夹后使用。
-  不要用于项目日报、待办、周报或业务项目管理。
+  new skill、develop a skill、start a skill、/skill-devkit、/skill-devkit init、
+  /init-skill、/new-skill。
+  打开空的开发文件夹后使用。不要用于已有 Skill 的升级发版，不要用于项目日报、待办、周报。
 metadata:
-  short-description: "初始化并维护 Skill 开发仓"
+  short-description: "初始化 Skill 开发仓"
 ---
 
 # Skill 开发工具包（skill-devkit）
 
-给 **Skill 作者**用。对象是当前工作区里的 **Skill 开发仓**（已有或即将创建），不是业务项目文件夹。
+给 **Skill 作者**用。只做一件事：把当前工作区初始化成 Skill 开发仓。
 
-本包与 ChronoPM 独立。升级流程**借鉴**其门禁（先方案后改文件、A/B 分角色、版本与基线），不引用 ChronoPM 路径，不接管日报/待办。
+初始化一旦写完，目标仓根上的 git 和 `governance/` 就是完整版本控制（方案模板、打包、版本号同步都在里面）。**之后改那个 Skill、升版本、打包，都不必再调用本包。** 本包不考虑终端用户升级，也不给已有 Skill 当升级引擎。
+
+不是业务项目管理。ChronoPM 只是「初始化向导怎么问人」的参考，不引用其路径。
+
+用法对话见仓库 `examples/`。
 
 ## 工作区
 
-打开**被开发的那个文件夹**当工作区。本 Skill 装在用户级（如 `~/.grok/skills/skill-devkit/`）。禁止把业务项目的 `ai/` 当成 Skill 根。
+打开**要用来开发那个新 Skill 的文件夹**当工作区。本 Skill 装在用户级（如 `~/.grok/skills/skill-devkit/`）。禁止把业务项目的 `ai/` 当成 Skill 根。
 
-- **初始化**：工作区可以是空文件夹，不要求已有 `SKILL.md`。
-- **升级 / 改规则**：Skill 根 = 含 `SKILL.md` 的目录。仓内多个 `SKILL.md` 时按「技能家族」处理：先问锁步还是各升各的。
+工作区可以是空文件夹，不要求已有 `SKILL.md`。
 
 ## 路由
 
-先判初始化，再判升级。用户一句话里已给出的字段，初始化时不要再问。
+用户一句话里已给出的字段，不要再问。
 
-| 用户信号 | 工作区有 `SKILL.md`？ | 角色 | 加载 |
-|---|---|---|---|
-| 初始化 / 开发一个 skill / 新建 / 创建 / 从零 / 脚手架 / 骨架 / init / scaffold / bootstrap / `/skill-devkit init` / `/init-skill` / `/new-skill` | 无 | 初始化 | `references/01-init.md` |
-| 同上（初始化意图） | 有 | 拒绝再初始化 | `references/01-init.md` §2 |
-| 「开发 skill」且未说升级、也未说初始化 | 无 | 初始化 | `references/01-init.md` |
-| 「开发 skill」且未说初始化 | 有 | A（改已有仓） | `references/00-core.md` |
-| 你是 Agent A / 写升级方案 / 写 AP / `/skill-devkit a` | 有 | A | `references/00-core.md` |
-| 你是 Agent B / B1 / B2 / 审核升级方案 | 有 | B | `references/00-core.md` |
-| 同意执行 / 开始改文件 | 有 | 执行 | `references/00-core.md`（须已有确认方案） |
-| 升级 / 写 AP / Agent A 或 B | 无 | 停止 | 提示先初始化，或打开已有 Skill 仓 |
+| 用户信号 | 工作区有 `SKILL.md`？ | 加载 |
+|---|---|---|
+| 初始化 / 开发一个 skill / 新建 / 创建 / 从零 / 脚手架 / 骨架 / init / scaffold / bootstrap / `/skill-devkit` / `/init-skill` / `/new-skill` | 无 | `references/01-init.md` |
+| 同上 | 有 | `references/01-init.md` §2（拒绝再初始化） |
+| 「开发 skill」且未说升级 | 无 | `references/01-init.md` |
+| 升级 / 你是 Agent A / 你是 Agent B / 写 AP / 打基线 / 发版 | 任意 | 停止。本包不做这些。已有仓用它自己的 `governance/` |
 
-细则未迁入前：00 为核心门禁。A/B 全文协议后续单独迁入 `references/`，禁止把长协议写进本文件。
+硬闸与身份见 `references/00-core.md`。流程正文只在 `01-init.md`，不要把长文写进本文件。
 
 ## 硬闸
 
-1. 未确认方案前禁止改**已有**目标 Skill 正文。初始化在用户确认问答清单之前禁止写盘。
-2. 用户开口不必报目标版本；新仓固定 `0.1.0`。已有仓由 A 读 `VERSION` / `skill.json` 后按变更类型拟定，写入方案。
-3. 禁止向用户索要 ChronoPM 或 Downloads 里的外置升级提示词。
-4. 无 `SKILL.md`：初始化意图 → 走 `01-init.md`；否则停止，提示打开 Skill 代码仓或改口「初始化 skill」。
-5. 同一对话已以 A 出过方案 → 拒绝直接转 B。
-6. 禁止把业务项目管理（日报、待办、`ai/`）写进目标仓。禁止把 `.git` 建在 `governance/` 里。
+1. 用户确认问答清单之前禁止写盘。
+2. 新仓版本固定 `0.1.0`。不问「升到几」。
+3. 无 `SKILL.md`：初始化意图 → `01-init.md`；否则停止，提示改口「初始化 skill」。
+4. 已有 `SKILL.md`：禁止再初始化，不要改写成升级流程。
+5. 禁止把业务项目管理（日报、待办、`ai/`）写进目标仓。禁止把 `.git` 建在 `governance/` 里。
+6. 禁止给本包或目标仓做「用户自动升级」。禁止把新 Skill 默装进 `~/.grok/skills/`。
 
 ## 版本
 
-本包：见 `VERSION`。目标仓版本由初始化（`0.1.0`）或升级方案拟定，不与本包版本混用。
+本包：见 `VERSION`。目标仓初始化为 `0.1.0`，之后的版本号由那个仓自己的 `VERSION` + `governance/` 管，与本包无关。

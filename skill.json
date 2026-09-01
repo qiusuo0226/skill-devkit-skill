@@ -1,9 +1,9 @@
 {
   "name": "skill-devkit",
   "displayName": "Skill 开发工具包",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "schemaVersion": "0.1.0",
-  "description": "给 Skill 作者初始化开发仓、写升级方案、审方案、定版本、打基线、打包发版。与业务项目管理无关。",
+  "description": "给 Skill 作者在空文件夹初始化完整开发仓（git 与版本控制目录）。初始化完成后不再需要本包。与业务项目管理无关。",
   "license": "MIT",
   "modes": [
     "author"
@@ -12,6 +12,11 @@
   "referencesDir": "references",
   "versionHistory": [
     {
+      "version": "0.3.0",
+      "date": "2026-09-01",
+      "summary": "只初始化；examples 对话示例；不管已有 Skill 升级。"
+    },
+    {
       "version": "0.2.0",
       "date": "2026-09-01",
       "summary": "空文件夹初始化：问答、git、governance/ 版本控制与打包。"
@@ -19,7 +24,7 @@
     {
       "version": "0.1.0",
       "date": "2026-09-01",
-      "summary": "开发仓骨架。独立于 ChronoPM。升级协议全文尚未迁入。"
+      "summary": "开发仓骨架。独立于 ChronoPM。"
     }
   ]
 }
