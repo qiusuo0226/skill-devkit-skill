@@ -8,7 +8,7 @@ Agent 改本 Skill 时先读：`rules/skill-governance.md`。
 |---|---|
 | `rules/` | 变更治理提示词（本仓后续流程的正文） |
 | `planning/` | 升级方案 AP。每周期 1 个：`upgrade-plan-v{版本}.md` |
-| `change-requests/` | 用户准许执行后才建 CR |
+| `change-requests/` | 用户准许执行后才建 CR。`CR-000-init` 是初始化出生证明，不要删 |
 | `impact-analysis/` | 影响分析 |
 | `regression-reports/` | 回归报告 |
 | `baselines/` | 已发布版本快照 `baselines/{版本}/`，只增不改 |

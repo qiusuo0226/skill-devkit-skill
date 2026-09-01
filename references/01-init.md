@@ -30,26 +30,44 @@
 
 自由文本用普通对话问，不要用选项卡片。
 
-1. **英文名** `name`：小写字母、数字、连字符；2–64；头尾是字母或数字。文件夹名若已合法，可作为默认，仍须确认。
-2. **干什么**：一句话，写成 `description` 的原料（做什么 + 何时用）。
-3. **显示名**：给人看的中文名。可默认「从干什么里缩」，仍须确认。
-4. **版权人**：LICENSE 用。默认「仇索」须用户点头，禁止猜。
-
-名称不合法 → 指出规则，再问，不要往下走。
+1. **英文名** `name`：小写字母、数字、连字符；2–64；头尾是字母或数字。文件夹名若已合法，可作为默认，仍须确认。不合法 → 指出规则，再问，不要往下走。
+2. **占用检查**（有了合法英文名立刻做，不要等清单）：见 §3.1。有冲突则先问换名还是坚持，未决之前不问下一题。
+3. **干什么**：一句话（做什么 + 何时用），作为 `description` 的原料。
+4. **显示名**：给人看的中文名。可默认「从干什么里缩」，仍须确认。
+5. **版权人**：LICENSE 用。默认「仇索」须用户点头，禁止猜。
+6. **触发说法**：用户以后怎么开口，助手才会调用这个 Skill。请 3～8 条（中英均可）。也会写成 `/<name>`。用户说跳过 → 从「干什么」生成，仍须在清单里亮出草稿让人改。开口里已经给了触发语则不要再问。
+7. **远程 URL**（可空）：Gitee / GitHub 地址。没有就说没有。不自动建仓、不 push。
 
 然后一次清单确认（可改；未确认不写盘）：
 
-- 版本 `0.1.0`
+- 版本 `0.1.0`（脚手架诞生，无业务能力）
 - 许可证 MIT（本包只内置 MIT 模板；用户改用其他则不要套该模板）
 - 中文 README
 - `git init`（工作区根；已有 `.git` 则跳过）
 - 首提交
-- 建 `governance/`，并写入这些能力（之后不靠本包）：版本控制、基线控制、升级记录、变更门禁、影响分析、回归、打包发包、发布审计
-- 打 `0.1.0` 基线快照，跑一遍发布审计
-- 远程 URL：默认无。用户给出再 `git remote add`，不主动 push
-- 草拟的 `SKILL.md` `description`（含触发）。用户可改
+- 建 `governance/`，写入：版本控制、基线控制、升级记录、变更门禁、影响分析、回归、打包发包、发布审计
+- 出生证明：`CR-000-init`、`upgrade-to-0.1.0.md`、CHANGELOG 0.1.0 段
+- 打 `0.1.0` 基线；跑发布审计；打包 `--dry-run`（不把 zip 留在仓里）
+- 远程：已填的 URL，或无
+- **`SKILL.md` `description` 草稿**（干什么 + 触发 + `/name`）。这是自动调用的关键，清单里必须全文亮出
 
 不问目标版本号（固定 0.1.0）。不问工作区 schema（默认无）。不问是否安装到 `~/.grok/skills/`。
+
+### 3.1 英文名占用检查
+
+Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
+
+扫描（能扫到什么扫什么，目录不存在则跳过该项并在结束时说明）：
+
+- `{grok}/skills/*/SKILL.md` 的 front matter `name:`
+- `{grok}/skills/` 下与英文名同名的目录
+- `{grok}/bundled/skills/*/SKILL.md` 的 `name:`（若存在）
+
+命中 → 列出路径，说明：开发仓仍可用这个名字，但装进助手时可能覆盖或并列冲突。问：换一个英文名，还是坚持。换名则对新名重新做本检查。
+
+未命中 → 不必专门汇报「没占用」，进入下一问。
+
+扫失败（无权限 / 无 `.grok`）→ 不阻断，结束时写「未做占用检查」。
 
 ## 4. 初始化写什么
 
@@ -59,10 +77,10 @@
 {工作区}/
 ├── .git/
 ├── .gitignore
-├── AGENTS.md                    # 开发提示：读 governance/rules；不进 zip
+├── AGENTS.md
 ├── LICENSE
 ├── README.md
-├── CHANGELOG.md
+├── CHANGELOG.md                 # 0.1.0 脚手架诞生
 ├── SKILL.md
 ├── skill.json
 ├── VERSION                      # 0.1.0
@@ -74,17 +92,18 @@
     ├── README.md
     ├── rules/skill-governance.md
     ├── planning/README.md
-    ├── change-requests/.gitkeep
+    ├── change-requests/CR-000-init.md
     ├── impact-analysis/.gitkeep
     ├── regression-reports/.gitkeep
     ├── baselines/README.md
-    ├── baselines/0.1.0/         # 初始化末尾快照
+    ├── baselines/0.1.0/
     ├── migrations/README.md
+    ├── migrations/upgrade-to-0.1.0.md
     ├── review-checklists/release-checklist.md
-    ├── templates/               # AP / CR / IA / RR / upgrade-to
+    ├── templates/
     ├── pack/pack.py
-    ├── dev.ps1                  # sync / snapshot / audit / pack / release
-    └── scripts/                 # sync_version / snapshot_baseline / audit_release
+    ├── dev.ps1
+    └── scripts/
 ```
 
 禁止：`.git` 建在 `governance/`；`VERSION` 只放在 governance；生成 ChronoPM 的 `ai/`；默装进 `~/.grok/skills/`；把本包 `SKILL.md` 原文拷进目标仓。
@@ -105,13 +124,15 @@
 | `assets/seed/VERSION` | `VERSION` |
 | `assets/seed/references-README.md` | `references/README.md` |
 | `assets/seed/tests-README.md` | `tests/README.md` |
-| `assets/seed/gitkeep` | `assets/.gitkeep`、`scripts/.gitkeep`、`governance/change-requests/.gitkeep`、`governance/impact-analysis/.gitkeep`、`governance/regression-reports/.gitkeep` |
+| `assets/seed/gitkeep` | `assets/.gitkeep`、`scripts/.gitkeep`、`governance/impact-analysis/.gitkeep`、`governance/regression-reports/.gitkeep` |
 | `assets/seed/governance-README.md` | `governance/README.md` |
 | `assets/seed/rules-README.md` | `governance/rules/README.md` |
 | `assets/seed/skill-governance.md` | `governance/rules/skill-governance.md` |
 | `assets/seed/planning-README.md` | `governance/planning/README.md` |
 | `assets/seed/baselines-README.md` | `governance/baselines/README.md` |
 | `assets/seed/migrations-README.md` | `governance/migrations/README.md` |
+| `assets/seed/CR-000-init.tmpl` | `governance/change-requests/CR-000-init.md` |
+| `assets/seed/upgrade-to-0.1.0.tmpl` | `governance/migrations/upgrade-to-0.1.0.md` |
 | `assets/seed/pack-README.md` | `governance/pack/README.md` |
 | `assets/seed/dev.ps1` | `governance/dev.ps1` |
 | `assets/seed/pack.py` | `governance/pack/pack.py` |
@@ -125,12 +146,13 @@
 | `assets/templates/upgrade-to.md` | `governance/templates/upgrade-to.md` |
 | `assets/templates/release-checklist.md` | `governance/review-checklists/release-checklist.md` |
 
-`SKILL.md.tmpl` 的 `__DESCRIPTION__` 必须是清单里确认过的那段。`skill.json` 的 description 做成合法 JSON 字符串。`SKILL.md` front matter 换行用 YAML `>` 并保持缩进。文本 UTF-8。先建目录再写文件。
+`SKILL.md.tmpl` 的 `__DESCRIPTION__` 必须是清单里确认过的那段（含触发）。`skill.json` 的 description 做成合法 JSON 字符串。`SKILL.md` front matter 换行用 YAML `>` 并保持缩进。文本 UTF-8。先建目录再写文件。
 
-写完后在工作区根执行：
+写完后在工作区根执行（按序；某步失败不回滚已写文件，列出失败项继续能做的）：
 
-1. `python governance/scripts/snapshot_baseline.py`（生成 `governance/baselines/0.1.0/`）。失败则按 `pack.py` 排除规则手工拷贝，并说明。不要覆盖已有基线目录。
-2. `python governance/scripts/audit_release.py`。把通过/失败项告诉用户。失败不回滚已写文件，列出失败项。
+1. `python governance/scripts/snapshot_baseline.py` → `governance/baselines/0.1.0/`。不要覆盖已有基线。
+2. `python governance/scripts/audit_release.py`。向用户汇报通过/失败项。
+3. `python governance/pack/pack.py --skill-root . --dry-run`。汇报文件数；点名确认列表里**没有** `governance/`、`.git/`、`AGENTS.md`。列出不超过 20 条路径作预览。 **不要**把 zip 写进仓库。
 
 ## 6. Git
 
@@ -145,16 +167,17 @@
 
 ## 7. 写完对外说什么
 
-先用一两句话说清：空仓已经变成能自己发版的开发仓，本包退场。
+按块说，不要只写「建好了」：
 
-然后列出：根路径、英文名、显示名、版本 `0.1.0`、基线已打、审计通过与否。
+1. **落地**：根路径、英文名、显示名、`0.1.0`
+2. **已写入能力**：版本控制、冻结基线、升级记录、变更门禁、触发词、打包、审计
+3. **出生证明**：`CR-000-init`、`upgrade-to-0.1.0.md`、CHANGELOG 0.1.0
+4. **绿灯**：基线路径；审计通过或失败列表；dry-run 文件数 +「治理目录未进包」
+5. **退场**：本包用完。以后说「按 `governance/rules/skill-governance.md` 处理，不要直接改」。打包：`powershell -File governance/dev.ps1 pack`
+6. **下一步**：把 `SKILL.md` 路由和 `references/` 写成真正要做的事。试用须用户明确要求，才拷到 `~/.grok/skills/<name>/`
 
-- 以后改这个 Skill：对助手说「按 `governance/rules/skill-governance.md` 处理，不要直接改」
-- 不必再调用 skill-devkit
-- 打包：`powershell -File governance/dev.ps1 pack`
-- 试用须用户明确要求，才拷到 `~/.grok/skills/<name>/`
-- 下一步：把 `SKILL.md` 路由和 `references/` 写成这个 Skill 真正要做的事
+占用检查若跳过或有冲突而用户坚持，在这里补一句。
 
 ## 8. 失败
 
-名称不合法 → 指出规则，再问。用户拒绝默认项 → 按改后的写。写盘失败 → 已写的列出，未写的说明。中途取消 → 已写的留下并列出，不要擅自删。非空目录 → 不写盘。
+名称不合法 → 指出规则，再问。占用冲突未决 → 不写盘。用户拒绝默认项 → 按改后的写。写盘失败 → 已写的列出，未写的说明。中途取消 → 已写的留下并列出，不要擅自删。非空目录 → 不写盘。

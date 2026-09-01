@@ -1,10 +1,17 @@
 # Skill 开发工具包（skill-devkit）
 
-**一次对话，空文件夹长成能自己发版的 Skill 仓。本包用完即走。**
+**空仓一次初始化：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。**
 
-给 Skill 作者。装进助手，把工作区指到一个空文件夹，说「初始化 skill」。点头之后，这个文件夹里不再是空白：有可安装的 `SKILL.md`，有 git，有版本号，有冻结基线，有升级记录，有打包和审计，还有一份以后任何助手改这个 Skill 都要遵守的治理提示词。
+给 Skill 作者。装进助手，工作区指到空文件夹，说「初始化 skill」。一次对话写入：
 
-**写完本包就退场。** 升版本、打基线、记升级、打 zip，都走这个文件夹自己的文件——不再经过本包，本包也不再认出它。魅力就是：用一次。
+- **版本控制** — 根目录 `VERSION` + git，可同步到 `skill.json`
+- **冻结基线** — `governance/baselines/{版本}/`，只增不改
+- **升级记录** — CHANGELOG、出生 CR、`upgrade-to`、以后的 git tag
+- **变更门禁** — 先方案后改文件，提示词留在仓里
+- **触发词** — 写进 `SKILL.md` description，助手才唤得起
+- **一键打包 / 发布审计** — zip 不含治理目录；版本不一致不准发
+
+**写完本包就退场。** 之后升版本、打基线、打 zip，走这个文件夹自己的文件，不再经过本包。
 
 ## 和一篇 SKILL.md 脚手架差在哪
 
@@ -53,6 +60,8 @@ flowchart LR
 | **升级方案** | `planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除 |
 | **一键脚本** | `governance/dev.ps1` | `sync` / `snapshot` / `audit` / `pack` / `release` |
 | **仓骨架** | `SKILL.md`、`references/`、`LICENSE`、`README.md` | 可安装的 Skill 入口 |
+| **触发词** | `SKILL.md` `description` | 向导收集开口说法，写入自动调用字段 |
+| **出生证明** | `CR-000-init`、`upgrade-to-0.1.0.md` | 0.1.0 起记录连续，标明本版无业务能力 |
 
 对已初始化的仓说：
 
@@ -64,7 +73,7 @@ flowchart LR
 
 对话示例（Skill 名和人名是假的，问法是真的）：
 
-目录：[examples/](examples/)（6 篇）
+目录：[examples/](examples/)（7 篇）
 
 建议先看 [01-初始化空文件夹.md](examples/01-初始化空文件夹.md)，再看 [06-初始化之后打包和升版本.md](examples/06-初始化之后打包和升版本.md)。
 
@@ -72,7 +81,7 @@ flowchart LR
 
 | 你说 | 它做 |
 |---|---|
-| 「初始化 skill」 | 确认是空目录后，问英文名、干什么、显示名、版权；清单确认后写盘 |
+| 「初始化 skill」 | 空目录检查 → 英文名（含占用检查）→ 干什么 → 显示名 → 版权 → 触发词 → 清单确认后写盘；结束亮审计和打包预览 |
 | 「开发一个 skill，英文名 meeting-notes，把纪要收成行动项」 | 已说的不问，只补缺的 |
 | 「把这个文件夹初始化成 skill」（目录非空） | **停止**，请换空文件夹 |
 | 「再初始化」（已有 `SKILL.md`） | **停止**。指你去读仓里的治理提示词 |
@@ -104,6 +113,8 @@ flowchart LR
 ├── tests/
 └── governance/           # 不进分发包
     ├── rules/skill-governance.md
+    ├── change-requests/CR-000-init.md
+    ├── migrations/upgrade-to-0.1.0.md
     ├── baselines/0.1.0/
     ├── dev.ps1
     ├── pack/pack.py

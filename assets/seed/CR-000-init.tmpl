@@ -1,0 +1,43 @@
+# Change Request
+
+## Basic Info
+
+| Field | Value |
+|---|---|
+| CR ID | CR-000-init |
+| Current Version | （无，从空仓诞生） |
+| Requester | __COPYRIGHT__ |
+| Created At | __DATE__ |
+| Change Type | feature |
+| Priority | P2 |
+| Status | completed |
+
+## Change Goal
+
+将空文件夹初始化为 Skill `__NAME__`（__DISPLAY_NAME__）的开发仓，版本 0.1.0。本版只建立开发基线：版本控制、冻结基线、升级记录、变更门禁、打包与发布审计。不交付业务能力。
+
+## Problem Statement
+
+尚无仓库。
+
+## Scope
+
+初始化写入的仓根文件与 `governance/`（见 `governance/README.md`）。
+
+## Non-goals
+
+- 不实现 __DISPLAY_NAME__ 的业务规则（下一步写 `references/`）
+- 不安装到 `~/.grok/skills/`
+- 不配置终端用户自动升级
+- 不 push 远程
+
+## Acceptance Criteria
+
+1. 根目录有 `SKILL.md`、`VERSION`=`0.1.0`、`skill.json`、`CHANGELOG.md`
+2. `governance/baselines/0.1.0/` 存在
+3. `governance/rules/skill-governance.md` 存在
+4. 发布审计可通过
+
+## Approval
+
+- [x] approved（初始化确认清单）
