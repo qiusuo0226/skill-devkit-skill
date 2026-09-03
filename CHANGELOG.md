@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.7.0 — 2026-09-03
+
+空仓初始化之外增加收编；目标仓升级支持 A 出方案、B 审核或人直接执行；初始化写入技能缺口捕捉。对照点 `v0.6.4`。
+
+### Added
+
+- 收编：`references/02-adopt.md`；已有 `SKILL.md`、无指纹时只补骨架
+- 目标仓 `governance/rules/upgrade-dual-agent.md`：路径 H / 路径 B
+- `references/gap-capture.md` 与缺口模板（进目标 zip）；稿在 `outputs/skill-gaps/`（不进 zip）
+- 示例 17～24
+
+### Changed
+
+- 三脚本 `EXCLUDE_DIRS` 同步增加 `outputs`
+- `skill-governance.md` §13 白名单含 `outputs/`；§2.11 B 节随 AP 删除
+- `SKILL.md` 路由与硬闸拆成初始化 / 收编；本包不加缺口路由
+
 ## 0.6.4 — 2026-09-03
 
 升级相关示例按「完全不懂」重写：方案固定七章、文件生成在 `governance/planning/upgrade-plan-v版本.md`、审查盯什么、同意执行后会多出哪些记录。初始化示例仍保持白话问答。

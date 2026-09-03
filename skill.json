@@ -1,9 +1,9 @@
 {
   "name": "skill-devkit",
   "displayName": "Skill 开发工具包",
-  "version": "0.6.4",
+  "version": "0.7.0",
   "schemaVersion": "0.1.0",
-  "description": "空仓一次初始化：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。不是业务项目管理。",
+  "description": "空仓一次初始化，或收编已有无规范技能：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。不是业务项目管理。",
   "license": "MIT",
   "modes": [
     "author"
@@ -11,6 +11,11 @@
   "entry": "SKILL.md",
   "referencesDir": "references",
   "versionHistory": [
+    {
+      "version": "0.7.0",
+      "date": "2026-09-03",
+      "summary": "收编无规范技能；目标仓 A/B 或人执行；初始化写入缺口捕捉。"
+    },
     {
       "version": "0.6.4",
       "date": "2026-09-03",
