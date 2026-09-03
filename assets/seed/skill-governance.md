@@ -6,16 +6,17 @@
 
 ## 1. 先方案后改文件
 
-禁止直接改 Skill 正文。即使用户说「直接改吧」，也必须先写出升级方案（AP）的 AP-1～AP-4，等人确认后再动文件。
+禁止直接改 Skill 正文。即使用户说「直接改吧」，也必须先写出升级方案（AP）的 **AP-1～AP-7（缺一不可）**，等人确认后再动文件。写方案 / 你是 A 或 B 时整份加载 `upgrade-dual-agent.md`。
 
 例外（可直接改，但必须记 CHANGELOG）：错别字、仅新增测试、仅新增模板且不改已有文件。
 
 ## 2. 强制流程
 
 ```
-1. 写 AP：governance/planning/upgrade-plan-v{目标版本}.md（每周期 1 个）
-2. 用户说「同意执行」
-3. 建 CR：governance/change-requests/CR-YYYYMMDD-NNN.md
+1. 写 AP：governance/planning/upgrade-plan-v{目标版本}.md（每周期 1 个；A 出方案，七章齐全）
+2. 路径 H：用户说「同意执行」或「执行升级」（可无 B 节）
+   或路径 B：新对话「你是 Agent B，审核该 AP」→ 文末追加 B 节 → 仍须用户「同意执行」
+3. 建 CR：governance/change-requests/CR-YYYYMMDD-NNN.md（写明执行授权：人直接同意 / B 通过后人同意 / 人覆盖 B）
 4. 建 IA：governance/impact-analysis/IA-YYYYMMDD-NNN.md
 5. 按最小范围改文件
 6. 回归（正 / 反 / 旧能力各至少 1 条）→ RR
@@ -23,7 +24,7 @@
 8. 更新 CHANGELOG.md
 9. 写升级记录：governance/migrations/upgrade-to-{版本}.md
 10. python governance/scripts/audit_release.py 必须通过
-11. 删除该版本 AP（已固化到 CR / CHANGELOG / 基线 / upgrade-to）
+11. 删除该版本 AP（含文末 B 审核节；内容已固化到 CR / CHANGELOG / 基线 / upgrade-to，不另存 B 副本）
 12. python governance/scripts/snapshot_baseline.py（基线只增不改）
 13. python governance/pack/pack.py --skill-root .
 14. git tag v{版本}（有 git 才做；不擅自 push）
@@ -83,7 +84,7 @@
 
 `upgrade-to` 写给「已经在用上一版的人」：这版改了什么、要不要重装、工作区要不要动手。本仓默认无工作区 schema；没有迁移就写「无需迁移」。
 
-`CR-000-init` 与 `upgrade-to-0.1.0.md` 是初始化出生证明，禁止删除。
+出生证明是 `CR-000-init` **或** `CR-000-adopt`，以及对应的 `upgrade-to`，禁止删除。
 
 ## 10. 打包发包
 
@@ -108,10 +109,14 @@ python governance/scripts/audit_release.py
 
 ## 13. 根目录白名单
 
-根上只允许：`SKILL.md`、`skill.json`、`VERSION`、`CHANGELOG.md`、`README.md`、`LICENSE`、`AGENTS.md`、`.gitignore`、`.git/`、`assets/`、`governance/`、`references/`、`scripts/`、`tests/`。新的根文件须先写进 AP-4。
+根上只允许：`SKILL.md`、`skill.json`、`VERSION`、`CHANGELOG.md`、`README.md`、`LICENSE`、`AGENTS.md`、`.gitignore`、`.git/`、`assets/`、`governance/`、`references/`、`scripts/`、`tests/`、`outputs/`。
+
+`outputs/` 是运行时生成物目录（懒建）。其下 `skill-gaps/` 稿件不须每次写入 AP-4。禁止把缺口稿散落在根上。新的其它根文件须先写进 AP-4。收编前已存在的额外根文件可保留，必须写进出生 CR。
 
 ## 14. 对助手怎么说
 
 ```
 按 governance/rules/skill-governance.md 处理，不要直接改。先出 AP。
+写升级方案 / 你是 Agent A / 你是 Agent B 时同时读 governance/rules/upgrade-dual-agent.md。
+同意执行或执行升级才改技能。
 ```

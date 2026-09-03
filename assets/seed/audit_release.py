@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-EXCLUDE_DIRS = {".git", "governance", "tests", "__pycache__", ".idea", ".vscode", ".qoder"}
+EXCLUDE_DIRS = {".git", "governance", "tests", "outputs", "__pycache__", ".idea", ".vscode", ".qoder"}
 EXCLUDE_FILES = {".gitignore", ".DS_Store", "Thumbs.db", "AGENTS.md"}
 EXCLUDE_EXTS = {".pyc", ".pyo", ".zip", ".tar", ".gz"}
 FAILURES = []

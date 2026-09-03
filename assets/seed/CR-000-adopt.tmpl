@@ -1,0 +1,48 @@
+# Change Request
+
+## Basic Info
+
+| Field | Value |
+|---|---|
+| CR ID | CR-000-adopt |
+| Current Version | __VERSION__（沿用，收编不升版） |
+| Requester | __COPYRIGHT__ |
+| Created At | __DATE__ |
+| Change Type | feature |
+| Priority | P2 |
+| Status | completed |
+
+## Change Goal
+
+将已有技能 `__NAME__`（__DISPLAY_NAME__）收编进本包这套开发规范：补版本控制、冻结基线、升级记录、变更门禁、打包与发布审计。**不改技能业务行为。**
+
+## Problem Statement
+
+仓内已有技能正文，但没有本包指纹（`governance/rules/skill-governance.md`），无法按规范升版本。
+
+## Scope
+
+补齐仓根缺失骨架与 `governance/`（见 `governance/README.md`）。保留已有 `SKILL.md` 正文与已有 `references/`。
+
+收编前已存在、白名单外的根文件：
+
+（无则写「无」）
+
+## Non-goals
+
+- 不重写 __DISPLAY_NAME__ 的业务规则
+- 不升版本
+- 不安装到 `~/.grok/skills/`
+- 不配置终端用户自动升级
+- 不 push 远程
+
+## Acceptance Criteria
+
+1. 根目录有 `SKILL.md`（正文与收编前一致，除非用户确认只改了英文名）
+2. `VERSION` = 采用号；`governance/baselines/{该号}/` 存在
+3. `governance/rules/skill-governance.md` 与 `upgrade-dual-agent.md` 存在
+4. 发布审计可通过
+
+## Approval
+
+- [x] approved（收编确认清单）

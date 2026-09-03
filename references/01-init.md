@@ -21,8 +21,10 @@
 | 状况 | 动作 |
 |---|---|
 | 空（含上空仓） | 进入提问 |
-| 已有 `SKILL.md` | **停止**。已经是 Skill 开发仓。本包只用一次。改规则、升版本、打包读那个仓的 `governance/rules/skill-governance.md` |
-| 有任何其他文件或目录 | **停止**。列出文件。请换一个空文件夹或空 git 仓。禁止问「能不能在这里初始化」，禁止在非空目录写盘 |
+| 已有 `governance/rules/skill-governance.md` | **停止**。已经规范。改规则、升版本读那个仓的治理文件。本包不写盘 |
+| 已有 `SKILL.md`、无上条指纹 | **停止**。不要当空仓初始化。要纳入规范请说「收编这个 skill」，走 `02-adopt.md` |
+| 有 `governance/` 但无指纹文件 | **停止**。来源不明，不覆盖 |
+| 有任何其他文件或目录、且无 `SKILL.md` | **停止**。列出文件。请换空文件夹。禁止问「能不能在这里初始化」 |
 
 `.git` 已存在：不 `git init`，沿用。
 
@@ -84,13 +86,19 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
 ├── SKILL.md
 ├── skill.json
 ├── VERSION                      # 0.1.0
-├── references/README.md
-├── assets/.gitkeep
+├── references/
+│   ├── README.md
+│   └── gap-capture.md
+├── assets/
+│   ├── .gitkeep
+│   └── templates/
+│       └── skill-gap-demand.md
 ├── scripts/.gitkeep
 ├── tests/README.md
 └── governance/
     ├── README.md
     ├── rules/skill-governance.md
+    ├── rules/upgrade-dual-agent.md
     ├── planning/README.md
     ├── change-requests/CR-000-init.md
     ├── impact-analysis/.gitkeep
@@ -128,6 +136,9 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
 | `assets/seed/governance-README.md` | `governance/README.md` |
 | `assets/seed/rules-README.md` | `governance/rules/README.md` |
 | `assets/seed/skill-governance.md` | `governance/rules/skill-governance.md` |
+| `assets/seed/upgrade-dual-agent.md` | `governance/rules/upgrade-dual-agent.md` |
+| `assets/seed/gap-capture.md` | `references/gap-capture.md` |
+| `assets/templates/skill-gap-demand.md` | `assets/templates/skill-gap-demand.md` |
 | `assets/seed/planning-README.md` | `governance/planning/README.md` |
 | `assets/seed/baselines-README.md` | `governance/baselines/README.md` |
 | `assets/seed/migrations-README.md` | `governance/migrations/README.md` |
@@ -169,7 +180,7 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
 
 白话，对齐 `examples/01-初始化空文件夹.md` 第 8 轮。不要念内部路径。
 
-> 写好了。文件夹 / 英文名 / 中文名 / 版本 0.1.0。已经能打包；安装包里不会带上开发用的说明。本包用完了。以后改这个技能、升版本、打安装包，把工作区留在这个文件夹直接说就行。下一步把技能真正要做的规则写进去。要装到助手里试用，你开口我才拷。
+> 写好了。文件夹 / 英文名 / 中文名 / 版本 0.1.0。已经能打包；安装包里不会带上开发用的说明。本包用完了。以后改这个技能：先出升级方案；你可以回复「同意执行」，也可以另开对话让别人审核。做不到的可以先说「记成升级需求」。下一步把技能真正要做的规则写进去。要装到助手里试用，你开口我才拷。
 
 检查失败时用白话说哪一步没过，再补一句内部命令给愿意看的人。撞名而用户坚持，补一句提醒。
 

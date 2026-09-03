@@ -2,7 +2,8 @@
 """Pack the Skill at --skill-root into {name}-Skill-v{version}.zip.
 
 Zip stem uses skill.json `name` (English slug), not displayName.
-Excludes: .git, governance, tests, __pycache__, zip artifacts.
+Excludes: .git, governance, tests, outputs, __pycache__, zip artifacts.
+Keep EXCLUDE_* in sync with snapshot_baseline.py and audit_release.py.
 """
 import argparse
 import json
@@ -10,7 +11,7 @@ import sys
 import zipfile
 from pathlib import Path
 
-EXCLUDE_DIRS = {".git", "governance", "tests", "__pycache__", ".idea", ".vscode", ".qoder"}
+EXCLUDE_DIRS = {".git", "governance", "tests", "outputs", "__pycache__", ".idea", ".vscode", ".qoder"}
 EXCLUDE_FILES = {".gitignore", ".DS_Store", "Thumbs.db", "AGENTS.md"}
 EXCLUDE_EXTS = {".pyc", ".pyo", ".zip", ".tar", ".gz"}
 

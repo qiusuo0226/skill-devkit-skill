@@ -1,8 +1,8 @@
 # Skill 开发工具包（skill-devkit）
 
-**空仓一次初始化：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。**
+**空仓一次初始化，或收编已有无规范技能：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。**
 
-> Empty-folder initializer for Agent Skills. One conversation writes a self-releasing skill repo (versioning, frozen baselines, changelog, change gates, pack/audit), then this kit exits.
+> Empty-folder initializer, or one-time adopt of an existing ungoverned skill. One conversation writes a self-releasing skill repo, then this kit exits.
 
 给 Skill 作者。装进助手，工作区指到空文件夹，说「初始化 skill」。一次对话写入：
 
@@ -22,7 +22,7 @@
 | 留下什么 | 一篇 `SKILL.md`，偶尔再加 scripts | 完整开发仓 |
 | 版本 | 往往写死在文件里 | 根目录 `VERSION` 单一来源，可同步 |
 | 基线 | 无 | 每版一份冻结快照，只增不改 |
-| 升级 | 靠聊天记忆 | AP → 确认 → CR → 记录 → tag |
+| 升级 | 靠聊天记忆 | A 出 AP → 人执行或 B 审后再执行 → CR → 记录 → tag |
 | 发包 | 手搓 zip | 一键打包，治理目录不进包 |
 | 本包还管不管 | 常常一直赖在对话里 | **不管了** |
 
@@ -54,7 +54,7 @@ flowchart LR
     E --> F["6 本包退场"]
 ```
 
-非空目录、已经有 `SKILL.md` 的仓：直接停止，不写盘。
+普通非空目录：直接停止。已有 `SKILL.md` 但无规范：说「收编这个 skill」。已规范仓：本包停止，升级走那个仓自己的文件。
 
 ## 初始化后，开发仓自带这些能力
 
@@ -65,7 +65,8 @@ flowchart LR
 | **版本控制** | 根目录 `VERSION`（唯一可读源）、`skill.json`、git、`sync_version.py` | 先改 `VERSION`，再同步；git 在仓根 |
 | **基线控制** | `governance/baselines/{版本}/`、`snapshot_baseline.py` | 每个发布版本一份分发包快照；只增不改 |
 | **升级记录** | `CHANGELOG.md`、CR、`upgrade-to-{版本}.md`、git tag `v{版本}` | 每次发版可追溯；默认无工作区迁移 |
-| **变更门禁** | `governance/rules/skill-governance.md`、`AGENTS.md` | 先写 AP，人确认再改文件 |
+| **变更门禁** | `governance/rules/skill-governance.md`、`upgrade-dual-agent.md` | A 出七章 AP；人直接执行，或 B 只追加审核后再由人执行 |
+| **技能缺口** | `references/gap-capture.md`、`outputs/skill-gaps/` | 明示「记成升级需求」先写后告知；不改正文；稿不进安装包 |
 | **影响分析** | `governance/impact-analysis/` | 标契约层 / 规则层是否受影响 |
 | **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条 |
 | **打包发包** | `governance/pack/pack.py` | `{英文名}-Skill-v{版本}.zip`；不含治理目录 |
@@ -88,9 +89,9 @@ flowchart LR
 
 对话示例（Skill 名和人名是假的，问法是真的）：
 
-目录：[examples/](examples/README.md)（16 篇：初始化 6 篇，初始化之后 10 篇）
+目录：[examples/](examples/README.md)（初始化、收编、初始化之后；升级见 08、21～23，缺口见 24）
 
-建议先看 [01-初始化空文件夹.md](examples/01-初始化空文件夹.md)。建好之后必看 [08-初始化之后怎么升级.md](examples/08-初始化之后怎么升级.md)：方案有哪七章、文件生成在哪、同意执行后会多出什么。写规则看 [10](examples/10-初始化之后写规则.md)，打包看 [06](examples/06-初始化之后怎么打包.md)。
+建议先看 [01-初始化空文件夹.md](examples/01-初始化空文件夹.md)。老技能看 [17](examples/17-收编已有技能.md)。建好之后必看 [08](examples/08-初始化之后怎么升级.md)。人直接执行看 [21](examples/21-初始化之后A出方案人直接执行.md)，B 审核看 [22](examples/22-初始化之后B审核再执行.md)。
 
 ## 开口就能用
 
@@ -100,9 +101,12 @@ flowchart LR
 | 「开发一个 skill，英文名 meeting-notes，把纪要收成行动项」 | 已说的不问，只补缺的 |
 | 「把这个文件夹初始化成 skill」（目录非空） | **停止**，请换空文件夹 |
 | 「再初始化」（已经建过） | **停止**。在这个文件夹里直接说要改什么 |
-| （对本包）「升级这个 skill」 | **停止。** 工作区换成那个技能的文件夹再问 |
-| （初始化之后）「把技能真正要做的规则写进去」 | **不要对本包说。** 工作区换成那个技能的文件夹；先列方案，你说「同意执行」 |
-| （初始化之后）「升级这个 skill。给它加一个能力：……」 | 同上：先把七章方案写到 `governance/planning/upgrade-plan-v版本.md`，不必报版本号 |
+| 「收编这个 skill」（已有 SKILL.md、无规范） | 读原文，只补骨架，不改正文 |
+| （对本包）「升级这个 skill」/「你是 Agent A」 | **停止。** 工作区换成那个技能的文件夹 |
+| （初始化之后）「升级这个 skill。给它加一个能力：……」 | 先把七章方案写到 `governance/planning/upgrade-plan-v版本.md` |
+| （初始化之后）「执行升级」 | 人直接同意，不经 B |
+| （初始化之后）「你是 Agent B，审核 upgrade-plan-vX.md」 | 只在方案文末追加审核；仍须人同意才改技能 |
+| （初始化之后）「这是 skill 的问题，记成升级需求」 | 写入 `outputs/skill-gaps/`，不改技能正文 |
 | （初始化之后）「把版本升到 0.2.0，打一份安装包」 | 同上 |
 | （初始化之后）「别人还可以说『提炼待办』」 | 同上：改开口说法 |
 | （初始化之后）「说明里有个错别字，改一下」 | 同上：小改可直接做 |
