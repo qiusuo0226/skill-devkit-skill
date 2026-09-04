@@ -53,6 +53,19 @@ class PackExcludeTests(unittest.TestCase):
         self.assertIn(".gitignore", files)
         self.assertIn(".pyc", exts)
 
+    def test_pack_py_agrees_with_loader(self):
+        repo = Path(__file__).resolve().parents[1]
+        pack_py = repo / "assets" / "seed" / "pack.py"
+        if not pack_py.is_file():
+            pack_py = repo / "governance" / "pack" / "pack.py"
+        self.assertTrue(pack_py.is_file(), "pack.py not found")
+        spec = importlib.util.spec_from_file_location("pack_mod", pack_py)
+        pack_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(pack_mod)
+        via_loader = self.mod.load_excludes(repo)
+        via_pack = pack_mod.load_sets(repo)
+        self.assertEqual(via_loader[:3], via_pack[:3])
+
     def test_ini_dirs_honored(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

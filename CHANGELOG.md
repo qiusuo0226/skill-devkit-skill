@@ -17,7 +17,7 @@
 - 硬闸 1 允许半套续跑；完成态 = 种子痕迹 + 非空版本基线目录（不比对 VERSION）
 - 版权默认改为 `git config user.name`；空则不问「仇索」
 - `SKILL.md` description 收到高频触发 + 正负路由；全表迁入 `references/04-triggers.md`
-- 三脚本改读 pack.ini；空 dirs 回退内置；目标仓 audit 跑冒烟
+- 三脚本改读 pack.ini；空 dirs 回退内置；目标仓 audit 跑冒烟，并断言 pack.py 与 audit 加载结果相等
 - snapshot 对空版本目录允许续写
 
 ### 测了什么

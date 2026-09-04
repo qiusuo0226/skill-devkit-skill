@@ -17,7 +17,7 @@
 - **触发词**：description 收缩；同义全表在 `references/04-triggers.md`。
 - **冒烟**：`tests/run_smoke.py`。本包根不跑 seed `audit_release.py`。
 
-B1+B2+B3 审核（通过-待修订）已吸收进 AP 1.3 并执行。
+B1+B2+B3 审核（通过-待修订）已吸收进 AP 1.3 并执行。B4 结语「通过」：两条注意——`audit_release.py` 补「pack.py 与 audit 加载结果相等」断言；本记录与 CR 写明 B4。
 
 ## 使用者要做什么
 

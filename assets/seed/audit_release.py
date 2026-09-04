@@ -2,6 +2,7 @@
 """Release assertions. Any FAIL → non-zero exit. Read-only. Target-repo copy."""
 from __future__ import annotations
 
+import importlib.util
 import json
 import re
 import subprocess
@@ -22,6 +23,25 @@ def check(name: str, ok: bool, detail: str = "") -> None:
     print(line)
     if not ok:
         FAILURES.append(name)
+
+
+def _load_sets_via_pack():
+    """Load excludes the way pack.py does (import path may differ from this sibling)."""
+    here = Path(__file__).resolve().parent
+    candidates = [
+        ROOT / "governance" / "pack" / "pack.py",
+        here / "pack.py",
+    ]
+    for c in candidates:
+        if not c.is_file():
+            continue
+        spec = importlib.util.spec_from_file_location("pack_mod_for_audit", c)
+        if spec is None or spec.loader is None:
+            continue
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod.load_sets(ROOT)
+    return None
 
 
 def excluded(rel: Path, dirs: set, files: set, exts: set) -> bool:
@@ -67,6 +87,13 @@ def main() -> None:
 
     dirs, files, exts, empty_dirs = load_excludes(ROOT)
     check("pack.ini dirs not empty (no silent empty exclude)", not empty_dirs)
+    via_pack = _load_sets_via_pack()
+    check("pack.py load_sets reachable", via_pack is not None)
+    if via_pack is not None:
+        check(
+            "pack.py and audit load_excludes agree",
+            via_pack[:3] == (dirs, files, exts),
+        )
     packed = [
         f.relative_to(ROOT)
         for f in ROOT.rglob("*")
