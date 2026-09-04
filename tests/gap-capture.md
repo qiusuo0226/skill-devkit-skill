@@ -7,5 +7,5 @@
 | G3 | 正 | 当前版本已包含后再记 | 旧稿 deprecated |
 | N11 | 反 | 记缺口后直接改 `SKILL.md` | 禁止 |
 | N12 | 反 | 无明示口令的不满 | 不落缺口文 |
-| X1 | 正 | 三脚本 `EXCLUDE_DIRS` | 三者相等，且都含 `outputs` |
+| X1 | 正 | 三脚本经 `pack_exclude.py` 加载 | dirs/files/exts 相等，且 ini 含 `outputs` |
 | X2 | 正 | 已有 `outputs/skill-gaps/*.md` 时 snapshot + audit + pack dry-run | `audit_release.py` 退出码 0；基线与 dry-run 不含 `outputs/` |

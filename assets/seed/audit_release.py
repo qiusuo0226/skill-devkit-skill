@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-"""Release assertions. Any FAIL → non-zero exit. Read-only."""
+"""Release assertions. Any FAIL → non-zero exit. Read-only. Target-repo copy."""
+from __future__ import annotations
+
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
+from pack_exclude import load_excludes
+
 ROOT = Path(__file__).resolve().parents[2]
-EXCLUDE_DIRS = {".git", "governance", "tests", "outputs", "__pycache__", ".idea", ".vscode", ".qoder"}
-EXCLUDE_FILES = {".gitignore", ".DS_Store", "Thumbs.db", "AGENTS.md"}
-EXCLUDE_EXTS = {".pyc", ".pyo", ".zip", ".tar", ".gz"}
 FAILURES = []
 
 
@@ -22,12 +24,12 @@ def check(name: str, ok: bool, detail: str = "") -> None:
         FAILURES.append(name)
 
 
-def excluded(rel: Path) -> bool:
-    if set(rel.parts) & EXCLUDE_DIRS:
+def excluded(rel: Path, dirs: set, files: set, exts: set) -> bool:
+    if set(rel.parts) & dirs:
         return True
-    if rel.name in EXCLUDE_FILES:
+    if rel.name in files:
         return True
-    if rel.suffix.lower() in EXCLUDE_EXTS:
+    if rel.suffix.lower() in exts:
         return True
     return False
 
@@ -63,14 +65,29 @@ def main() -> None:
     base = ROOT / "governance" / "baselines" / version
     check(f"baseline {version} exists", base.is_dir(), str(base))
 
-    packed = [f.relative_to(ROOT) for f in ROOT.rglob("*") if f.is_file() and not excluded(f.relative_to(ROOT))]
-    leaked = [p.as_posix() for p in packed if "governance" in p.parts or p.parts[:1] == (".git",) or p.name == "AGENTS.md"]
+    dirs, files, exts, empty_dirs = load_excludes(ROOT)
+    check("pack.ini dirs not empty (no silent empty exclude)", not empty_dirs)
+    packed = [
+        f.relative_to(ROOT)
+        for f in ROOT.rglob("*")
+        if f.is_file() and not excluded(f.relative_to(ROOT), dirs, files, exts)
+    ]
+    leaked = [
+        p.as_posix()
+        for p in packed
+        if "governance" in p.parts or p.parts[:1] == (".git",) or p.name == "AGENTS.md"
+    ]
     check("pack set has no governance/.git/AGENTS.md", not leaked, ", ".join(leaked[:8]))
 
     planning = ROOT / "governance" / "planning"
     if planning.is_dir() and version:
         leftover = list(planning.glob(f"upgrade-plan-v{version}.md"))
         check("no AP left for published version", not leftover, str(leftover))
+
+    smoke = ROOT / "tests" / "run_smoke.py"
+    if smoke.is_file():
+        proc = subprocess.run([sys.executable, str(smoke)], cwd=str(ROOT))
+        check("tests/run_smoke.py", proc.returncode == 0, f"exit {proc.returncode}")
 
     if FAILURES:
         print(f"\n{len(FAILURES)} failed")

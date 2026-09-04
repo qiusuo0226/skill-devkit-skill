@@ -1,6 +1,6 @@
 # 初始化 Skill 开发仓
 
-工作区 = 用户选中的文件夹。只允许 **空文件夹或空 git 仓**。本流程在这里新建一套完整开发仓（代码 + git + 版本控制 + 基线 + 打包 + 后续提示词）。不是改 ChronoPM，不是只丢一个 `SKILL.md`。
+工作区 = 用户选中的文件夹。允许 **空文件夹、空 git 仓，或本包半套落盘**（见恢复节）。本流程在这里新建一套完整开发仓（代码 + git + 版本控制 + 基线 + 打包 + 后续提示词）。不是改 ChronoPM，不是只丢一个 `SKILL.md`。
 
 种子与模板从 **本包（skill-devkit）** 根目录复制：`assets/seed/`、`assets/templates/`。先定位本包根（含本包 `SKILL.md` 且 `name: skill-devkit`）。种子缺失 → 停止，说明安装不完整。
 
@@ -8,9 +8,9 @@
 
 ## 1. 何时走本文件
 
-见 `SKILL.md` 路由。用户一句话里已经给出的字段不要再问。
+见 `SKILL.md` 路由。用户一句话里已经给出的字段不要再问。同义开口见 `references/04-triggers.md`。
 
-## 2. 先看文件夹（空才继续）
+## 2. 先看文件夹（空或半套才继续）
 
 列出工作区内容。下列视为「空」，可以初始化：
 
@@ -18,15 +18,20 @@
 - 仅有 `.DS_Store` / `Thumbs.db`
 - 仅有 `.git/`（空仓：还没有 `SKILL.md` 和其他项目文件）
 
+判定顺序见 `00-core.md`：**先 E，再半套，再下表。** 种子痕迹与非空版本基线目录的定义在那里。无 git 不算未完成。
+
 | 状况 | 动作 |
 |---|---|
 | 空（含上空仓） | 进入提问 |
-| 已有 `governance/rules/skill-governance.md` | **停止**。已经规范。改规则、升版本读那个仓的治理文件。本包不写盘 |
-| 已有 `SKILL.md`、无上条指纹 | **停止**。不要当空仓初始化。要纳入规范请说「收编这个 skill」，走 `02-adopt.md` |
-| 有 `governance/` 但无指纹文件 | **停止**。来源不明，不覆盖 |
-| 有任何其他文件或目录、且无 `SKILL.md` | **停止**。列出文件。请换空文件夹。禁止问「能不能在这里初始化」 |
+| 半套（C）：至少一件种子痕迹，且无非空版本基线目录 | 走恢复节。不重问、不换文件夹 |
+| 已规范（E）：至少一件种子痕迹，且有非空版本基线目录 | **停止**。已经规范。改规则、升版本读那个仓的治理文件。本包不写盘 |
+| 已有 `SKILL.md`、无种子痕迹 | **停止**。不要当空仓初始化。要纳入规范请说「收编这个 skill」，走 `02-adopt.md` |
+| 有 `governance/` 但无种子痕迹 | **停止**。来源不明，不覆盖 |
+| 有任何其他文件或目录、且无 `SKILL.md`、非半套 | **停止**。列出文件。请换空文件夹。禁止问「能不能在这里初始化」 |
 
 `.git` 已存在：不 `git init`，沿用。
+
+已知行为：根文件已写、`governance/` 未动、无种子痕迹 → 按「有 SKILL.md、无痕迹」指路收编，不改判定。
 
 ## 3. 必问（一次问一项，等答再问下一项）
 
@@ -36,7 +41,7 @@
 2. **是否撞名**（有了合法英文名立刻做，见 §3.1）：对用户说「助手里已经有一个同名技能」，不要报内部路径当正文。有冲突则先问换名还是坚持，未决之前不问下一题。
 3. **干什么**：一句话。
 4. **给人看的中文名**。可默认「从干什么里缩」，仍须确认。
-5. **版权写谁**。默认「仇索」须用户点头，禁止猜。
+5. **版权写谁**。先跑 `git config --get user.name`（工作区，失败再全局；失败当空）。非空则默认用该名，白话问「许可证上的版权人我读到是『X』，要用这个吗？」。空则问「版权写谁？」，**不要**提示「仇索」。须点头，禁止猜。
 6. **别人以后怎么开口才会用到它**。请几句常用说法。用户说跳过 → 从「干什么」生成，仍须在清单里亮出。开口里已经给了则不要再问。
 7. **有没有代码仓库地址**。没有就说没有。不自动建仓、不 push。
 
@@ -53,23 +58,17 @@
 
 对应要写入的文件仍按 §4～§5 做，不要把文件清单念给用户听。
 
-不问目标版本号（固定 0.1.0）。不问工作区 schema（默认无）。不问是否安装到 `~/.grok/skills/`。
+不问目标版本号（固定 0.1.0）。不问工作区 schema（默认无）。不问是否安装到助手技能目录。
 
 ### 3.1 英文名占用检查
 
-Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
+算法与脚本见 `references/03-skill-roots.md`。先定位本包根，能跑则跑 `python scripts/discover_skill_roots.py --check-name <英文名>`。
 
-扫描（能扫到什么扫什么，目录不存在则跳过该项并在结束时说明）：
-
-- `{grok}/skills/*/SKILL.md` 的 front matter `name:`
-- `{grok}/skills/` 下与英文名同名的目录
-- `{grok}/bundled/skills/*/SKILL.md` 的 `name:`（若存在）
-
-命中 → 列出路径，说明：开发仓仍可用这个名字，但装进助手时可能覆盖或并列冲突。问：换一个英文名，还是坚持。换名则对新名重新做本检查。
+命中 → 列出（对用户只说助手里已有同名技能）。问：换一个英文名，还是坚持。换名则对新名重新做本检查。
 
 未命中 → 不必专门汇报「没占用」，进入下一问。
 
-扫失败（无权限 / 无 `.grok`）→ 不阻断，结束时写「未做占用检查」。
+零个根或扫失败 → 不阻断，结束时写「未做占用检查（没有探测到技能目录；可设 SKILL_DEVKIT_SKILLS_DIRS）」。
 
 ## 4. 初始化写什么
 
@@ -94,9 +93,13 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
 │   └── templates/
 │       └── skill-gap-demand.md
 ├── scripts/.gitkeep
-├── tests/README.md
+├── tests/
+│   ├── README.md
+│   ├── run_smoke.py
+│   └── test_pack_exclude.py
 └── governance/
     ├── README.md
+    ├── pack.ini
     ├── rules/skill-governance.md
     ├── rules/upgrade-dual-agent.md
     ├── planning/README.md
@@ -112,9 +115,13 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
     ├── pack/pack.py
     ├── dev.ps1
     └── scripts/
+        ├── pack_exclude.py
+        ├── sync_version.py
+        ├── snapshot_baseline.py
+        └── audit_release.py
 ```
 
-禁止：`.git` 建在 `governance/`；`VERSION` 只放在 governance；生成 ChronoPM 的 `ai/`；默装进 `~/.grok/skills/`；把本包 `SKILL.md` 原文拷进目标仓。
+禁止：`.git` 建在 `governance/`；`VERSION` 只放在 governance；生成 ChronoPM 的 `ai/`；默装进任何已探测的助手技能目录；把本包 `SKILL.md` 原文拷进目标仓。
 
 ## 5. 从种子复制
 
@@ -132,6 +139,8 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
 | `assets/seed/VERSION` | `VERSION` |
 | `assets/seed/references-README.md` | `references/README.md` |
 | `assets/seed/tests-README.md` | `tests/README.md` |
+| `assets/seed/run_smoke.py` | `tests/run_smoke.py` |
+| `assets/seed/test_pack_exclude.py` | `tests/test_pack_exclude.py` |
 | `assets/seed/gitkeep` | `assets/.gitkeep`、`scripts/.gitkeep`、`governance/impact-analysis/.gitkeep`、`governance/regression-reports/.gitkeep` |
 | `assets/seed/governance-README.md` | `governance/README.md` |
 | `assets/seed/rules-README.md` | `governance/rules/README.md` |
@@ -144,9 +153,11 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
 | `assets/seed/migrations-README.md` | `governance/migrations/README.md` |
 | `assets/seed/CR-000-init.tmpl` | `governance/change-requests/CR-000-init.md` |
 | `assets/seed/upgrade-to-0.1.0.tmpl` | `governance/migrations/upgrade-to-0.1.0.md` |
+| `assets/seed/pack.ini` | `governance/pack.ini` |
 | `assets/seed/pack-README.md` | `governance/pack/README.md` |
 | `assets/seed/dev.ps1` | `governance/dev.ps1` |
 | `assets/seed/pack.py` | `governance/pack/pack.py` |
+| `assets/seed/pack_exclude.py` | `governance/scripts/pack_exclude.py` |
 | `assets/seed/sync_version.py` | `governance/scripts/sync_version.py` |
 | `assets/seed/snapshot_baseline.py` | `governance/scripts/snapshot_baseline.py` |
 | `assets/seed/audit_release.py` | `governance/scripts/audit_release.py` |
@@ -161,7 +172,7 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
 
 写完后在工作区根执行（按序；某步失败不回滚已写文件，列出失败项继续能做的）：
 
-1. `python governance/scripts/snapshot_baseline.py` → `governance/baselines/0.1.0/`。不要覆盖已有基线。
+1. `python governance/scripts/snapshot_baseline.py` → `governance/baselines/0.1.0/`。不要覆盖已有**非空**基线。空版本目录视为未完成，允许写入。
 2. `python governance/scripts/audit_release.py`。向用户汇报通过/失败项。
 3. `python governance/pack/pack.py --skill-root . --dry-run`。汇报文件数；点名确认列表里**没有** `governance/`、`.git/`、`AGENTS.md`。列出不超过 20 条路径作预览。 **不要**把 zip 写进仓库。
 
@@ -182,8 +193,22 @@ Grok 根：环境变量 `GROK_HOME`，否则用户主目录下的 `.grok`。
 
 > 写好了。文件夹 / 英文名 / 中文名 / 版本 0.1.0。已经能打包；安装包里不会带上开发用的说明。本包用完了。以后改这个技能：先出升级方案；你可以回复「同意执行」，也可以另开对话让别人审核。做不到的可以先说「记成升级需求」。下一步把技能真正要做的规则写进去。要装到助手里试用，你开口我才拷。
 
-检查失败时用白话说哪一步没过，再补一句内部命令给愿意看的人。撞名而用户坚持，补一句提醒。
+检查失败时用白话说哪一步没过，再补一句内部命令给愿意看的人。撞名而用户坚持，补一句提醒。零根未做占用检查，结束时补一句。
+
+试用拷贝：禁止默装。用户开口才按 `03-skill-roots.md` 选用户级 `skills/`（排除 `bundled`）。0 个根问路径；2+ 个列出让用户选。二次确认覆盖。
 
 ## 8. 失败
 
-名称不合法 → 指出规则，再问。占用冲突未决 → 不写盘。用户拒绝默认项 → 按改后的写。写盘失败 → 已写的列出，未写的说明。中途取消 → 已写的留下并列出，不要擅自删。非空目录 → 不写盘。
+名称不合法 → 指出规则，再问。占用冲突未决 → 不写盘。用户拒绝默认项 → 按改后的写。写盘失败 → 已写的列出，未写的说明。中途取消 → 已写的留下并列出，不要擅自删。普通非空目录（非半套）→ 不写盘。
+
+## 9. 中断恢复
+
+不新增问项。确认清单前禁止写盘。
+
+| 阶段 | 磁盘 | 怎么继续 |
+|---|---|---|
+| 问答中 / 清单未确认 | 仍空 | 同对话：已答字段不重问，从下一问继续。新对话：只能重问 |
+| 写盘中（C） | 半套 | 白话列出已经写入的文件和下一步。按 §5 拷贝表补缺（有则跳过），再从失败的 snapshot / audit / dry-run / git 继续。无 git：跳过 §6 |
+| 已规范（E） | 痕迹 + 非空基线 | 停止，不恢复 |
+
+对用户说话：已经问过并记下的 / 已经写入的文件 / 下一步做哪一件。不要念内部术语。用户再说「初始化 skill」「接着写」「继续」即可进入本节。

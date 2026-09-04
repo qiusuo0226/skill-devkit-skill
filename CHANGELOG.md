@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.8.0 — 2026-09-04
+
+技能目录探测可配置；半套初始化/收编可续跑；打包排除收敛为 pack.ini；版权默认读 git user.name；description 触发表收缩；pack/探测可机器冒烟。对照点 `v0.7.0`。
+
+### Added
+
+- `references/03-skill-roots.md` 与 `scripts/discover_skill_roots.py`：环境变量 + 候选回退 + 启发式
+- 初始化/收编恢复节；示例 25
+- `governance/pack.ini` + `pack_exclude.py`；目标仓 `tests/run_smoke.py`
+- `tests/test_pack_exclude.py`、`tests/test_skill_roots.py`、`tests/init-resume.md`
+
+### Changed
+
+- 占用检查、收编安装闸、试用拷贝改走同一探测算法
+- 硬闸 1 允许半套续跑；完成态 = 种子痕迹 + 非空版本基线目录（不比对 VERSION）
+- 版权默认改为 `git config user.name`；空则不问「仇索」
+- `SKILL.md` description 收到高频触发 + 正负路由；全表迁入 `references/04-triggers.md`
+- 三脚本改读 pack.ini；空 dirs 回退内置；目标仓 audit 跑冒烟
+- snapshot 对空版本目录允许续写
+
+### 测了什么
+
+`python tests/run_smoke.py`；`python assets/seed/pack.py --skill-root . --dry-run`（无 governance/.git/AGENTS.md）。对话表 `tests/init-resume.md`、`adopt.md`、`gap-capture.md`、`upgrade-roles.md`。
+
+### 怎么回滚
+
+`git checkout v0.7.0`。本包无 `governance/baselines/`。已用 0.7.x 初始化的目标仓不自动获得 pack.ini。
+
 ## 0.7.0 — 2026-09-03
 
 空仓初始化之外增加收编；目标仓升级支持 A 出方案、B 审核或人直接执行；初始化写入技能缺口捕捉。对照点 `v0.6.4`。

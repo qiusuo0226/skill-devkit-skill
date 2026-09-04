@@ -16,7 +16,7 @@ Agent 改本 Skill 时先读：`rules/skill-governance.md`。
 | `review-checklists/` | 发布核对 |
 | `templates/` | AP / CR / IA / RR / upgrade-to 空模板 |
 | `pack/` | 打包 |
-| `scripts/` | 版本同步、基线快照、发布审计 |
+| `scripts/` | 版本同步、基线快照、发布审计、排除名单加载器 |
 
 Git 仓库在**上一级根目录**（`.git`），不在本文件夹里。根目录 `VERSION` 才是版本号。
 

@@ -39,7 +39,7 @@
 npx skills add qiusuo0226/skill-devkit-skill
 ```
 
-或把本仓复制到助手的技能目录，例如 `~/.grok/skills/skill-devkit/`。装好后，工作区指到**空文件夹**，说「初始化 skill」。
+或把本仓复制到助手的技能目录（探测见技能包内说明；Grok 常见为 `~/.grok/skills/skill-devkit/`。其他助手可设环境变量 `SKILL_DEVKIT_SKILLS_DIRS`）。装好后，工作区指到**空文件夹**，说「初始化 skill」。
 
 [![skills.sh](https://skills.sh/b/qiusuo0226/skill-devkit-skill)](https://skills.sh/qiusuo0226/skill-devkit-skill)
 
@@ -91,7 +91,7 @@ flowchart LR
 
 目录：[examples/](examples/README.md)（初始化、收编、初始化之后；升级见 08、21～23，缺口见 24）
 
-建议先看 [01-初始化空文件夹.md](examples/01-初始化空文件夹.md)。老技能看 [17](examples/17-收编已有技能.md)。建好之后必看 [08](examples/08-初始化之后怎么升级.md)。人直接执行看 [21](examples/21-初始化之后A出方案人直接执行.md)，B 审核看 [22](examples/22-初始化之后B审核再执行.md)。
+建议先看 [01-初始化空文件夹.md](examples/01-初始化空文件夹.md)。写到一半看 [25](examples/25-初始化写到一半再开口.md)。老技能看 [17](examples/17-收编已有技能.md)。建好之后必看 [08](examples/08-初始化之后怎么升级.md)。人直接执行看 [21](examples/21-初始化之后A出方案人直接执行.md)，B 审核看 [22](examples/22-初始化之后B审核再执行.md)。
 
 ## 开口就能用
 
@@ -117,7 +117,7 @@ flowchart LR
 
 ## 快速开始
 
-1. 安装：`npx skills add qiusuo0226/skill-devkit-skill`，或把本仓复制到助手的技能目录，例如 `~/.grok/skills/skill-devkit/`。
+1. 安装：`npx skills add qiusuo0226/skill-devkit-skill`，或把本仓复制到助手的技能目录（Grok 常见为 `~/.grok/skills/skill-devkit/`；可设 `SKILL_DEVKIT_SKILLS_DIRS`）。
 2. 新建一个**空文件夹**（或空 git 仓），把助手工作区指到那里（不要指到本仓上）。
 3. 说：「初始化 skill」。
 4. 问完确认清单，说「按这个写」。
