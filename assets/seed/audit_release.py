@@ -113,8 +113,18 @@ def main() -> None:
 
     smoke = ROOT / "tests" / "run_smoke.py"
     if smoke.is_file():
-        proc = subprocess.run([sys.executable, str(smoke)], cwd=str(ROOT))
+        proc = subprocess.run(
+            [sys.executable, str(smoke)],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+        )
         check("tests/run_smoke.py", proc.returncode == 0, f"exit {proc.returncode}")
+        if proc.returncode != 0:
+            if proc.stdout:
+                print(proc.stdout, end="")
+            if proc.stderr:
+                print(proc.stderr, end="", file=sys.stderr)
 
     if FAILURES:
         print(f"\n{len(FAILURES)} failed")

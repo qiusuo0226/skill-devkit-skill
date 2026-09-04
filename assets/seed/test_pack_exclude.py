@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import importlib.util
+import io
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stderr
 from pathlib import Path
 
 BUILTIN_DIRS = {".git", "governance", "tests", "outputs", "__pycache__", ".idea", ".vscode", ".qoder"}
@@ -32,14 +34,22 @@ class PackExcludeTests(unittest.TestCase):
     def setUpClass(cls):
         cls.mod = _load_mod()
 
-    def test_missing_ini_uses_builtin(self):
+    def _load_expect_warn(self, root):
+        buf = io.StringIO()
+        with redirect_stderr(buf):
+            result = self.mod.load_excludes(root)
+        err = buf.getvalue()
+        self.assertIn("WARN", err, "expected WARN on constructed missing/empty pack.ini")
+        return result
+
+    def test_missing_ini_uses_builtin_expected_warn(self):
         with tempfile.TemporaryDirectory() as tmp:
-            dirs, files, exts, empty = self.mod.load_excludes(Path(tmp))
+            dirs, files, exts, empty = self._load_expect_warn(Path(tmp))
         self.assertEqual(dirs, BUILTIN_DIRS)
         self.assertFalse(empty)
         self.assertTrue(dirs)
 
-    def test_empty_dirs_in_ini_fallback_and_flag(self):
+    def test_empty_dirs_in_ini_fallback_and_flag_expected_warn(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             (root / "governance").mkdir()
@@ -47,7 +57,7 @@ class PackExcludeTests(unittest.TestCase):
                 "[exclude]\ndirs =\nfiles = .gitignore\nexts = .pyc\n",
                 encoding="utf-8",
             )
-            dirs, files, exts, empty = self.mod.load_excludes(root)
+            dirs, files, exts, empty = self._load_expect_warn(root)
         self.assertTrue(empty)
         self.assertEqual(dirs, BUILTIN_DIRS)
         self.assertIn(".gitignore", files)
