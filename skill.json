@@ -1,7 +1,7 @@
 {
   "name": "skill-devkit",
   "displayName": "Skill 开发工具包",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "schemaVersion": "0.1.0",
   "description": "空仓一次初始化，或收编已有无规范技能：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。不是业务项目管理。",
   "license": "MIT",
@@ -11,6 +11,11 @@
   "entry": "SKILL.md",
   "referencesDir": "references",
   "versionHistory": [
+    {
+      "version": "0.9.0",
+      "date": "2026-09-07",
+      "summary": "发版前结构校验：validate_skill.py 查 frontmatter、references 引用、VERSION 同步；目标仓 audit 先跑它。"
+    },
     {
       "version": "0.8.0",
       "date": "2026-09-04",

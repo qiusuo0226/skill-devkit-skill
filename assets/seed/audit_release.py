@@ -82,6 +82,21 @@ def main() -> None:
     check("SKILL.md exists", (ROOT / "SKILL.md").is_file())
     check("LICENSE exists", (ROOT / "LICENSE").is_file())
 
+    validator = Path(__file__).resolve().parent / "validate_skill.py"
+    check("validate_skill.py present", validator.is_file(), str(validator))
+    if validator.is_file():
+        proc = subprocess.run(
+            [sys.executable, str(validator), "--skill-root", str(ROOT)],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+        )
+        check("validate_skill.py", proc.returncode == 0, f"exit {proc.returncode}")
+        if proc.stdout:
+            print(proc.stdout, end="")
+        if proc.returncode != 0 and proc.stderr:
+            print(proc.stderr, end="", file=sys.stderr)
+
     base = ROOT / "governance" / "baselines" / version
     check(f"baseline {version} exists", base.is_dir(), str(base))
 

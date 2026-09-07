@@ -10,4 +10,5 @@
 | `init-resume.md` | 半套续跑、已规范仍停、空基线目录 |
 | `run_smoke.py` | 可执行冒烟入口 |
 | `test_pack_exclude.py` | 排除加载器 |
+| `test_validate_skill.py` | 结构校验（frontmatter / 版本 / 引用） |
 | `test_skill_roots.py` | 技能目录探测（本包） |

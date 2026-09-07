@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.9.0 — 2026-09-07
+
+发版前自动结构校验。对照点 `v0.8.0`。
+
+### Added
+
+- `assets/seed/validate_skill.py`：零依赖；`--skill-root`；查 SKILL.md frontmatter `name`/`description`、`references/` 引用存在、`VERSION` 与 `skill.json.version` 一致
+- 目标仓拷贝为 `governance/scripts/validate_skill.py`；`audit_release.py` 先跑它
+- `assets/seed/test_validate_skill.py` → 目标仓 `tests/test_validate_skill.py`；本仓 `tests/test_validate_skill.py`
+- `dev.ps1 validate` 子命令（audit / release 已串联，不必再手跑一遍）
+
+### Changed
+
+- `references/01-init.md` §5 拷贝表与目录树补校验脚本与测试
+- `references/02-adopt.md` 测试补缺列表加上 `test_validate_skill.py`
+- README 能力清单加「结构校验」一行
+
+### 测了什么
+
+`python assets/seed/validate_skill.py --skill-root .`；`python tests/run_smoke.py`（含缺 name / 版本不一致 / 断引用反例）；`python assets/seed/pack.py --skill-root . --dry-run`（无 governance/.git/AGENTS.md）。
+
+### 怎么回滚
+
+`git checkout v0.8.0`。本包无 `governance/baselines/`。已用 0.8.x 初始化的目标仓不自动获得校验脚本。
+
 ## 0.8.0 — 2026-09-04
 
 技能目录探测可配置；半套初始化/收编可续跑；打包排除收敛为 pack.ini；版权默认读 git user.name；description 触发表收缩；pack/探测可机器冒烟。对照点 `v0.7.0`。

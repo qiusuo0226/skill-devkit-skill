@@ -77,7 +77,7 @@
 | `SKILL.md` 路由表「技能做不到 / 记成升级需求」行 | **不覆盖**已有路由。无该行则在表末**只追加一行**，指向 `references/gap-capture.md` |
 | `references/` 已有文件 | 不覆盖；无该目录或无 README 才补种子 README |
 | `references/gap-capture.md` | 无则从 `assets/seed/gap-capture.md` 拷入 |
-| `scripts/`、`assets/`、`tests/` 已有文件 | 不覆盖；缺目录才建；缺 `.gitkeep` / `tests/README.md` / `tests/run_smoke.py` / `tests/test_pack_exclude.py` 才补 |
+| `scripts/`、`assets/`、`tests/` 已有文件 | 不覆盖；缺目录才建；缺 `.gitkeep` / `tests/README.md` / `tests/run_smoke.py` / `tests/test_pack_exclude.py` / `tests/test_validate_skill.py` 才补 |
 | `assets/templates/skill-gap-demand.md` | 无则从本包 `assets/templates/skill-gap-demand.md` 拷入（先建目录） |
 | `LICENSE` / `README.md` | 有则保留；无 README 才按模板写 |
 | `.gitignore` | 无则写入种子；有则只追加种子里缺失的行 |
@@ -119,7 +119,7 @@
 | 阶段 | 磁盘 | 怎么继续 |
 |---|---|---|
 | 问答中 / 清单未确认 | 无 `governance/` 半套 | 同对话已答不重问。新对话重问未确认项 |
-| 写盘中（D） | 用户 `SKILL.md` + 种子痕迹 + 无非空版本基线目录 | 不改正文。按 §5 拷贝表补缺（含 tests 冒烟两文件），再从失败的 snapshot / audit / dry-run / git 继续 |
+| 写盘中（D） | 用户 `SKILL.md` + 种子痕迹 + 无非空版本基线目录 | 不改正文。按 §5 拷贝表补缺（含 tests 冒烟与结构校验测试），再从失败的 snapshot / audit / dry-run / git 继续 |
 | 已规范（E） | 痕迹 + 非空基线 | 停止 |
 
 对用户说话：已经读到的 / 已经写入的 / 下一步。用户再说「收编这个 skill」「接着写」「继续」即可进入本节。

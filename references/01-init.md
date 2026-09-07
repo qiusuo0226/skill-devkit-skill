@@ -96,7 +96,8 @@
 ├── tests/
 │   ├── README.md
 │   ├── run_smoke.py
-│   └── test_pack_exclude.py
+│   ├── test_pack_exclude.py
+│   └── test_validate_skill.py
 └── governance/
     ├── README.md
     ├── pack.ini
@@ -118,7 +119,8 @@
         ├── pack_exclude.py
         ├── sync_version.py
         ├── snapshot_baseline.py
-        └── audit_release.py
+        ├── audit_release.py
+        └── validate_skill.py
 ```
 
 禁止：`.git` 建在 `governance/`；`VERSION` 只放在 governance；生成 ChronoPM 的 `ai/`；默装进任何已探测的助手技能目录；把本包 `SKILL.md` 原文拷进目标仓。
@@ -141,6 +143,7 @@
 | `assets/seed/tests-README.md` | `tests/README.md` |
 | `assets/seed/run_smoke.py` | `tests/run_smoke.py` |
 | `assets/seed/test_pack_exclude.py` | `tests/test_pack_exclude.py` |
+| `assets/seed/test_validate_skill.py` | `tests/test_validate_skill.py` |
 | `assets/seed/gitkeep` | `assets/.gitkeep`、`scripts/.gitkeep`、`governance/impact-analysis/.gitkeep`、`governance/regression-reports/.gitkeep` |
 | `assets/seed/governance-README.md` | `governance/README.md` |
 | `assets/seed/rules-README.md` | `governance/rules/README.md` |
@@ -161,6 +164,7 @@
 | `assets/seed/sync_version.py` | `governance/scripts/sync_version.py` |
 | `assets/seed/snapshot_baseline.py` | `governance/scripts/snapshot_baseline.py` |
 | `assets/seed/audit_release.py` | `governance/scripts/audit_release.py` |
+| `assets/seed/validate_skill.py` | `governance/scripts/validate_skill.py` |
 | `assets/templates/upgrade-plan.md` | `governance/templates/upgrade-plan.md` |
 | `assets/templates/CR-template.md` | `governance/templates/CR-template.md` |
 | `assets/templates/IA-template.md` | `governance/templates/IA-template.md` |

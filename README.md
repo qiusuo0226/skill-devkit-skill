@@ -71,8 +71,9 @@ flowchart LR
 | **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条 |
 | **打包发包** | `governance/pack/pack.py` | `{英文名}-Skill-v{版本}.zip`；不含治理目录 |
 | **发布审计** | `audit_release.py`、发布核对清单 | 版本一致、有基线、包内无治理目录 |
+| **结构校验** | `validate_skill.py`（audit 先跑） | frontmatter 必填、`references/` 引用存在、VERSION 与 skill.json 一致 |
 | **升级方案** | `planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除 |
-| **一键脚本** | `governance/dev.ps1` | `sync` / `snapshot` / `audit` / `pack` / `release` |
+| **一键脚本** | `governance/dev.ps1` | `sync` / `snapshot` / `audit` / `validate` / `pack` / `release` |
 | **仓骨架** | `SKILL.md`、`references/`、`LICENSE`、`README.md` | 可安装的 Skill 入口 |
 | **触发词** | `SKILL.md` `description` | 向导收集开口说法，写入自动调用字段 |
 | **出生证明** | `CR-000-init`、`upgrade-to-0.1.0.md` | 0.1.0 起记录连续，标明本版无业务能力 |
