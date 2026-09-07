@@ -15,7 +15,7 @@
 
 - `references/01-init.md` §5 拷贝表与目录树补校验脚本与测试
 - `references/02-adopt.md` 测试补缺列表加上 `test_validate_skill.py`
-- README 能力清单加「结构校验」一行
+- README 开篇与能力清单写上结构校验；示例 06 / 08 / 13 发版检查补说明必填项和引用文件
 
 ### 测了什么
 

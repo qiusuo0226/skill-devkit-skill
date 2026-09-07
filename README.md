@@ -1,6 +1,6 @@
 # Skill 开发工具包（skill-devkit）
 
-**空仓一次初始化，或收编已有无规范技能：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。**
+**空仓一次初始化，或收编已有无规范技能：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计（含结构校验）。问完即落盘，本包退场。**
 
 > Empty-folder initializer, or one-time adopt of an existing ungoverned skill. One conversation writes a self-releasing skill repo, then this kit exits.
 
@@ -11,7 +11,7 @@
 - **升级记录** — CHANGELOG、出生 CR、`upgrade-to`、以后的 git tag
 - **变更门禁** — 先方案后改文件，提示词留在仓里
 - **触发词** — 写进 `SKILL.md` description，助手才唤得起
-- **一键打包 / 发布审计** — zip 不含治理目录；版本不一致不准发
+- **一键打包 / 发布审计** — zip 不含治理目录；版本不一致、说明缺项、引用断裂不准发
 
 **写完本包就退场。** 之后升版本、打基线、打 zip，走这个文件夹自己的文件，不再经过本包。
 
