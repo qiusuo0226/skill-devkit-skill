@@ -4,7 +4,7 @@
 
 > Empty-folder initializer, or one-time adopt of an existing ungoverned skill. One conversation writes a self-releasing skill repo, then this kit exits.
 
-给 Skill 作者。装进助手，工作区指到空文件夹，说「初始化 skill」。一次对话写入：
+给 Skill 作者。装进助手，工作区指到空文件夹说「初始化 skill」，或指到已有无规范技能说「收编这个 skill」。一次对话写入：
 
 - **版本控制** — 根目录 `VERSION` + git，可同步到 `skill.json`
 - **冻结基线** — `governance/baselines/{版本}/`，只增不改
@@ -39,7 +39,7 @@
 npx skills add qiusuo0226/skill-devkit-skill
 ```
 
-或把本仓复制到助手的技能目录（探测见技能包内说明；Grok 常见为 `~/.grok/skills/skill-devkit/`。其他助手可设环境变量 `SKILL_DEVKIT_SKILLS_DIRS`）。装好后，工作区指到**空文件夹**，说「初始化 skill」。
+或把本仓复制到助手的技能目录（探测见技能包内说明；Grok 常见为 `~/.grok/skills/skill-devkit/`。其他助手可设环境变量 `SKILL_DEVKIT_SKILLS_DIRS`）。装好后，工作区指到**空文件夹**说「初始化 skill」，或指到已有 `SKILL.md` 但无规范的文件夹说「收编这个 skill」。
 
 [![skills.sh](https://skills.sh/b/qiusuo0226/skill-devkit-skill)](https://skills.sh/qiusuo0226/skill-devkit-skill)
 
@@ -47,14 +47,16 @@ npx skills add qiusuo0226/skill-devkit-skill
 
 ```mermaid
 flowchart LR
-    A["1 安装本包"] --> B["2 空文件夹或空仓"]
-    B --> C["3 说：初始化 skill"]
-    C --> D["4 问答 + 确认"]
-    D --> E["5 写出开发仓"]
-    E --> F["6 本包退场"]
+    A["1 安装本包"] --> B{"2 工作区"}
+    B -->|"空文件夹或空仓"| C["3 初始化 skill"]
+    B -->|"已有技能、无规范"| D["3 收编这个 skill"]
+    C --> E["4 问答 + 确认"]
+    D --> E
+    E --> F["5 写出开发仓"]
+    F --> G["6 本包退场"]
 ```
 
-普通非空目录：直接停止。已有 `SKILL.md` 但无规范：说「收编这个 skill」。已规范仓：本包停止，升级走那个仓自己的文件。
+普通非空目录（没有 `SKILL.md`）：直接停止。已规范仓：本包停止，升级走那个仓自己的文件。写到一半再说初始化或收编：从断点续跑，不重问。
 
 ## 初始化后，开发仓自带这些能力
 
@@ -69,14 +71,14 @@ flowchart LR
 | **技能缺口** | `references/gap-capture.md`、`outputs/skill-gaps/` | 明示「记成升级需求」先写后告知；不改正文；稿不进安装包 |
 | **影响分析** | `governance/impact-analysis/` | 标契约层 / 规则层是否受影响 |
 | **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条 |
-| **打包发包** | `governance/pack/pack.py` | `{英文名}-Skill-v{版本}.zip`；不含治理目录 |
+| **打包发包** | `governance/pack/pack.py`、`pack.ini` | `{英文名}-Skill-v{版本}.zip`；不含治理目录 |
 | **发布审计** | `audit_release.py`、发布核对清单 | 版本一致、有基线、包内无治理目录 |
 | **结构校验** | `validate_skill.py`（audit 先跑） | frontmatter 必填、`references/` 引用存在、VERSION 与 skill.json 一致 |
-| **升级方案** | `planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除 |
+| **升级方案** | `governance/planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除 |
 | **一键脚本** | `governance/dev.ps1` | `sync` / `snapshot` / `audit` / `validate` / `pack` / `release` |
 | **仓骨架** | `SKILL.md`、`references/`、`LICENSE`、`README.md` | 可安装的 Skill 入口 |
 | **触发词** | `SKILL.md` `description` | 向导收集开口说法，写入自动调用字段 |
-| **出生证明** | `CR-000-init`、`upgrade-to-0.1.0.md` | 0.1.0 起记录连续，标明本版无业务能力 |
+| **出生证明** | `CR-000-init` 或 `CR-000-adopt`、`upgrade-to-{版本}.md` | 初始化从 0.1.0 起；收编沿用已有版本、不改正文 |
 
 对已初始化的仓说：
 
@@ -98,11 +100,12 @@ flowchart LR
 
 | 你说 | 它做 |
 |---|---|
-| 「初始化 skill」 | 问英文名、干什么、中文名、版权、别人怎么开口；你点头后写入文件夹 |
+| 「初始化 skill」 | 问英文名、干什么、中文名、版权、别人怎么开口、有没有仓库；你点头后写入文件夹 |
 | 「开发一个 skill，英文名 meeting-notes，把纪要收成行动项」 | 已说的不问，只补缺的 |
-| 「把这个文件夹初始化成 skill」（目录非空） | **停止**，请换空文件夹 |
+| 「初始化 skill。接着写。」（写到一半） | 不重问，从断点续跑 |
+| 「把这个文件夹初始化成 skill」（目录非空、无 SKILL.md） | **停止**，请换空文件夹 |
 | 「再初始化」（已经建过） | **停止**。在这个文件夹里直接说要改什么 |
-| 「收编这个 skill」（已有 SKILL.md、无规范） | 读原文，只补骨架，不改正文 |
+| 「收编这个 skill」（已有 SKILL.md、无规范） | 读原文，只补骨架，不改正文、不升版本 |
 | （对本包）「升级这个 skill」/「你是 Agent A」 | **停止。** 工作区换成那个技能的文件夹 |
 | （初始化之后）「升级这个 skill。给它加一个能力：……」 | 先把七章方案写到 `governance/planning/upgrade-plan-v版本.md` |
 | （初始化之后）「执行升级」 | 人直接同意，不经 B |
@@ -114,7 +117,7 @@ flowchart LR
 | （初始化之后）「这版不行，回到上一版」 | 同上：回滚 |
 | （初始化之后）「装到助手里试用」 | 同上：你开口才拷 |
 
-同义口令：`开发一个 skill`、`新建技能`、`从零写 skill`、`脚手架`、`init skill`、`/init-skill`、`/new-skill`。
+同义口令：`开发一个 skill`、`新建技能`、`从零写 skill`、`脚手架`、`init skill`、`/init-skill`、`/new-skill`；收编：`收编这个 skill`、`adopt skill`、`/skill-devkit adopt`。
 
 ## 快速开始
 
@@ -124,11 +127,14 @@ flowchart LR
 4. 问完确认清单，说「按这个写」。
 5. 之后只在那个新文件夹里开发。本包不再出现。
 
+已有 `SKILL.md`、还没有本包规范：工作区指到那个文件夹，说「收编这个 skill」。读原文、只补骨架，不改正文、不升版本。
+
 ## 初始化会写出什么
 
 ```
 {你的新文件夹}/
 ├── .git/
+├── .gitignore
 ├── AGENTS.md             # 开发提示，不进 zip
 ├── SKILL.md
 ├── skill.json
@@ -136,16 +142,22 @@ flowchart LR
 ├── CHANGELOG.md
 ├── LICENSE
 ├── README.md
-├── references/
-├── tests/
+├── references/           # 含 gap-capture.md
+├── assets/templates/
+├── scripts/
+├── tests/                # 冒烟与结构校验
 └── governance/           # 不进分发包
-    ├── rules/skill-governance.md
+    ├── pack.ini
+    ├── rules/            # skill-governance + upgrade-dual-agent
     ├── change-requests/CR-000-init.md
     ├── migrations/upgrade-to-0.1.0.md
     ├── baselines/0.1.0/
+    ├── planning/
+    ├── templates/
+    ├── review-checklists/
     ├── dev.ps1
     ├── pack/pack.py
-    └── scripts/
+    └── scripts/          # sync / snapshot / audit / validate
 ```
 
 完整树和提问顺序见 `references/01-init.md`。
@@ -158,12 +170,15 @@ skill-devkit/
 ├── skill.json
 ├── VERSION
 ├── CHANGELOG.md
+├── LICENSE
+├── README.md
 ├── references/
 ├── assets/seed/
 ├── assets/templates/
 ├── examples/
-├── governance/planning/
-└── README.md
+├── scripts/
+├── tests/
+└── governance/
 ```
 
 ## 许可证
@@ -172,4 +187,4 @@ skill-devkit/
 
 ## 斜杠
 
-`/skill-devkit` · `/skill-devkit init` · `/init-skill` · `/new-skill`
+`/skill-devkit` · `/skill-devkit init` · `/skill-devkit adopt` · `/init-skill` · `/new-skill`
