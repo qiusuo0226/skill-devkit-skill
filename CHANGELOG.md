@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.10.0 — 2026-09-25
+
+升级做完后的效果核对固定成三栏编号清单。对照点 `v0.9.0`。
+
+### Added
+
+- `assets/templates/upgrade-effect.md`：空核对单。满足 / 未满足 / 方案外；一条方案行一个编号
+- 初始化拷贝到目标仓 `governance/templates/upgrade-effect.md`
+- `assets/seed/upgrade-dual-agent.md` 效果核对节：口令、对照顺序、回复只贴核对单、不改文件
+- 示例 26
+
+### Changed
+
+- 目标仓 `skill-governance.md` §14 增加核对口令；§2 第 11 步删掉发版前已写出的核对单，结论行写入 RR
+- 发版后才写出的核对单：当次把结论行补进该版 RR 后删除
+- 本包 `SKILL.md` 路由：对本包说核对口令则停止，换到目标仓
+- 索引：README、示例目录、种子 `planning/` 与 `governance/` 说明、`tests/upgrade-roles.md`（U4、U5、N11–N14）
+
+### 测了什么
+
+`python assets/seed/validate_skill.py --skill-root .`；`python tests/run_smoke.py`；`python assets/seed/pack.py --skill-root . --dry-run`（无 governance/.git/AGENTS.md）。对话表 `tests/upgrade-roles.md` 已写入，未跑对话。
+
+### 怎么回滚
+
+`git checkout v0.9.0`。本包无 `governance/baselines/`。已用 0.9.x 及更早初始化的目标仓不自动获得核对单。
+
 ## 0.9.0 — 2026-09-07
 
 发版前自动结构校验。对照点 `v0.8.0`。

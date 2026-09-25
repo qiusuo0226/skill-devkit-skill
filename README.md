@@ -67,7 +67,7 @@ flowchart LR
 | **版本控制** | 根目录 `VERSION`（唯一可读源）、`skill.json`、git、`sync_version.py` | 先改 `VERSION`，再同步；git 在仓根 |
 | **基线控制** | `governance/baselines/{版本}/`、`snapshot_baseline.py` | 每个发布版本一份分发包快照；只增不改 |
 | **升级记录** | `CHANGELOG.md`、CR、`upgrade-to-{版本}.md`、git tag `v{版本}` | 每次发版可追溯；默认无工作区迁移 |
-| **变更门禁** | `governance/rules/skill-governance.md`、`upgrade-dual-agent.md` | A 出七章 AP；人直接执行，或 B 只追加审核后再由人执行 |
+| **变更门禁** | `governance/rules/skill-governance.md`、`upgrade-dual-agent.md` | A 出七章 AP；人直接执行，或 B 只追加审核后再由人执行。人要求时按核对单对账实际改动 |
 | **技能缺口** | `references/gap-capture.md`、`outputs/skill-gaps/` | 明示「记成升级需求」先写后告知；不改正文；稿不进安装包 |
 | **影响分析** | `governance/impact-analysis/` | 标契约层 / 规则层是否受影响 |
 | **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条 |
@@ -92,9 +92,9 @@ flowchart LR
 
 对话示例（Skill 名和人名是假的，问法是真的）：
 
-目录：[examples/](examples/README.md)（初始化、收编、初始化之后；升级见 08、21～23，缺口见 24）
+目录：[examples/](examples/README.md)（初始化、收编、初始化之后；升级见 08、21～23、26，缺口见 24）
 
-建议先看 [01-初始化空文件夹.md](examples/01-初始化空文件夹.md)。写到一半看 [25](examples/25-初始化写到一半再开口.md)。老技能看 [17](examples/17-收编已有技能.md)。建好之后必看 [08](examples/08-初始化之后怎么升级.md)。人直接执行看 [21](examples/21-初始化之后A出方案人直接执行.md)，B 审核看 [22](examples/22-初始化之后B审核再执行.md)。
+建议先看 [01-初始化空文件夹.md](examples/01-初始化空文件夹.md)。写到一半看 [25](examples/25-初始化写到一半再开口.md)。老技能看 [17](examples/17-收编已有技能.md)。建好之后必看 [08](examples/08-初始化之后怎么升级.md)。人直接执行看 [21](examples/21-初始化之后A出方案人直接执行.md)，B 审核看 [22](examples/22-初始化之后B审核再执行.md)。核对效果看 [26](examples/26-升级做完之后核对效果.md)。
 
 ## 开口就能用
 
@@ -106,10 +106,11 @@ flowchart LR
 | 「把这个文件夹初始化成 skill」（目录非空、无 SKILL.md） | **停止**，请换空文件夹 |
 | 「再初始化」（已经建过） | **停止**。在这个文件夹里直接说要改什么 |
 | 「收编这个 skill」（已有 SKILL.md、无规范） | 读原文，只补骨架，不改正文、不升版本 |
-| （对本包）「升级这个 skill」/「你是 Agent A」 | **停止。** 工作区换成那个技能的文件夹 |
+| （对本包）「升级这个 skill」/「你是 Agent A」/「检查实际升级效果」 | **停止。** 工作区换成那个技能的文件夹 |
 | （初始化之后）「升级这个 skill。给它加一个能力：……」 | 先把七章方案写到 `governance/planning/upgrade-plan-v版本.md` |
 | （初始化之后）「执行升级」 | 人直接同意，不经 B |
 | （初始化之后）「你是 Agent B，审核 upgrade-plan-vX.md」 | 只在方案文末追加审核；仍须人同意才改技能 |
+| （初始化之后）「A 已经升级完毕，检查开发仓实际升级效果」 | 只回复核对单：满足、未满足、方案外。不改技能 |
 | （初始化之后）「这是 skill 的问题，记成升级需求」 | 写入 `outputs/skill-gaps/`，不改技能正文 |
 | （初始化之后）「把版本升到 0.2.0，打一份安装包」 | 同上 |
 | （初始化之后）「别人还可以说『提炼待办』」 | 同上：改开口说法 |

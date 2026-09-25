@@ -166,6 +166,7 @@
 | `assets/seed/audit_release.py` | `governance/scripts/audit_release.py` |
 | `assets/seed/validate_skill.py` | `governance/scripts/validate_skill.py` |
 | `assets/templates/upgrade-plan.md` | `governance/templates/upgrade-plan.md` |
+| `assets/templates/upgrade-effect.md` | `governance/templates/upgrade-effect.md` |
 | `assets/templates/CR-template.md` | `governance/templates/CR-template.md` |
 | `assets/templates/IA-template.md` | `governance/templates/IA-template.md` |
 | `assets/templates/RR-template.md` | `governance/templates/RR-template.md` |

@@ -6,7 +6,7 @@
 
 ## 1. 先方案后改文件
 
-禁止直接改 Skill 正文。即使用户说「直接改吧」，也必须先写出升级方案（AP）的 **AP-1～AP-7（缺一不可）**，等人确认后再动文件。写方案 / 你是 A 或 B 时整份加载 `upgrade-dual-agent.md`。
+禁止直接改 Skill 正文。即使用户说「直接改吧」，也必须先写出升级方案（AP）的 **AP-1～AP-7（缺一不可）**，等人确认后再动文件。写方案 / 你是 A 或 B / 人要求核对升级效果时，整份加载 `upgrade-dual-agent.md`。
 
 例外（可直接改，但必须记 CHANGELOG）：错别字、仅新增测试、仅新增模板且不改已有文件。
 
@@ -24,7 +24,7 @@
 8. 更新 CHANGELOG.md
 9. 写升级记录：governance/migrations/upgrade-to-{版本}.md
 10. python governance/scripts/audit_release.py 必须通过
-11. 删除该版本 AP（含文末 B 审核节；内容已固化到 CR / CHANGELOG / 基线 / upgrade-to，不另存 B 副本）
+11. 删除该版本 AP（含文末 B 审核节；内容已固化到 CR / CHANGELOG / 基线 / upgrade-to，不另存 B 副本）。此时已有的同版本 `upgrade-effect-v{版本}.md`：文首结论一行写入当版 RR 后一并删除。发版后才写出的核对单不靠这一步，见 `upgrade-dual-agent.md` 效果核对节
 12. python governance/scripts/snapshot_baseline.py（基线只增不改）
 13. python governance/pack/pack.py --skill-root .
 14. git tag v{版本}（有 git 才做；不擅自 push）
@@ -119,4 +119,5 @@ python governance/scripts/audit_release.py
 按 governance/rules/skill-governance.md 处理，不要直接改。先出 AP。
 写升级方案 / 你是 Agent A / 你是 Agent B 时同时读 governance/rules/upgrade-dual-agent.md。
 同意执行或执行升级才改技能。
+A 已经升级完毕 / 检查开发仓实际升级效果 / 检查升级效果 / 升级做完了核对一下 / 对照方案看改完没有：读 upgrade-dual-agent.md 的效果核对节。只按模板回复，不改文件。这不是 B 审核。
 ```

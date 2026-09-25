@@ -7,14 +7,14 @@ Agent 改本 Skill 时先读：`rules/skill-governance.md`。
 | 子目录 | 用途 |
 |---|---|
 | `rules/` | 变更治理提示词（本仓后续流程的正文） |
-| `planning/` | 升级方案 AP。每周期 1 个：`upgrade-plan-v{版本}.md` |
+| `planning/` | 升级方案 AP。每周期 1 个：`upgrade-plan-v{版本}.md`。核对单 `upgrade-effect-v{版本}.md` 不长期保留 |
 | `change-requests/` | 用户准许执行后才建 CR。`CR-000-init` 是初始化出生证明，不要删 |
 | `impact-analysis/` | 影响分析 |
 | `regression-reports/` | 回归报告 |
 | `baselines/` | 已发布版本快照 `baselines/{版本}/`，只增不改 |
 | `migrations/` | 升级记录 `upgrade-to-{版本}.md` |
 | `review-checklists/` | 发布核对 |
-| `templates/` | AP / CR / IA / RR / upgrade-to 空模板 |
+| `templates/` | AP / CR / IA / RR / upgrade-to / upgrade-effect 空模板 |
 | `pack/` | 打包 |
 | `scripts/` | 版本同步、基线快照、发布审计、排除名单加载器 |
 
