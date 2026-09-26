@@ -119,5 +119,5 @@ python governance/scripts/audit_release.py
 按 governance/rules/skill-governance.md 处理，不要直接改。先出 AP。
 写升级方案 / 你是 Agent A / 你是 Agent B 时同时读 governance/rules/upgrade-dual-agent.md。
 同意执行或执行升级才改技能。
-A 已经升级完毕 / 检查开发仓实际升级效果 / 检查升级效果 / 升级做完了核对一下 / 对照方案看改完没有：读 upgrade-dual-agent.md 的效果核对节。只按模板回复，不改文件。这不是 B 审核。
+A 已经升级完毕 / 检查开发仓实际升级效果 / 检查升级效果 / 升级做完了核对一下 / 对照方案看改完没有：读 upgrade-dual-agent.md 的效果核对节。只按模板回复。不改技能正文，不改方案正文，不建 CR；写盘只允许核对单本身；方案已删则把文首结论一行补进该版已有回归报告后删核对单。除此以外改文件算失败。这不是 B 审核。
 ```
