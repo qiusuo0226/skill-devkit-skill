@@ -96,6 +96,7 @@
 ├── tests/
 │   ├── README.md
 │   ├── run_smoke.py
+│   ├── test_checker_mutations.py
 │   ├── test_pack_exclude.py
 │   └── test_validate_skill.py
 └── governance/
@@ -144,6 +145,7 @@
 | `assets/seed/run_smoke.py` | `tests/run_smoke.py` |
 | `assets/seed/test_pack_exclude.py` | `tests/test_pack_exclude.py` |
 | `assets/seed/test_validate_skill.py` | `tests/test_validate_skill.py` |
+| `assets/seed/test_checker_mutations.py` | `tests/test_checker_mutations.py` |
 | `assets/seed/gitkeep` | `assets/.gitkeep`、`scripts/.gitkeep`、`governance/impact-analysis/.gitkeep`、`governance/regression-reports/.gitkeep` |
 | `assets/seed/governance-README.md` | `governance/README.md` |
 | `assets/seed/rules-README.md` | `governance/rules/README.md` |

@@ -77,7 +77,7 @@
 | `SKILL.md` 路由表「技能做不到 / 记成升级需求」行 | **不覆盖**已有路由。无该行则在表末**只追加一行**，指向 `references/gap-capture.md` |
 | `references/` 已有文件 | 不覆盖；无该目录或无 README 才补种子 README |
 | `references/gap-capture.md` | 无则从 `assets/seed/gap-capture.md` 拷入 |
-| `scripts/`、`assets/`、`tests/` 已有文件 | 不覆盖；缺目录才建；缺 `.gitkeep` / `tests/README.md` / `tests/run_smoke.py` / `tests/test_pack_exclude.py` / `tests/test_validate_skill.py` 才补 |
+| `scripts/`、`assets/`、`tests/` 已有文件 | 不覆盖；缺目录才建；缺 `.gitkeep` / `tests/README.md` / `tests/run_smoke.py` / `tests/test_pack_exclude.py` / `tests/test_validate_skill.py` / `tests/test_checker_mutations.py` 才补 |
 | `assets/templates/skill-gap-demand.md` | 无则从本包 `assets/templates/skill-gap-demand.md` 拷入（先建目录） |
 | `LICENSE` / `README.md` | 有则保留；无 README 才按模板写 |
 | `.gitignore` | 无则写入种子；有则只追加种子里缺失的行 |

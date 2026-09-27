@@ -20,10 +20,13 @@ def _run(args, extra_env=None):
         e.pop(k, None)
     if extra_env:
         e.update(extra_env)
+    e["PYTHONIOENCODING"] = "utf-8"
     proc = subprocess.run(
         [sys.executable, str(SCRIPT), *args],
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         env=e,
         check=False,
     )

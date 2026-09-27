@@ -22,7 +22,7 @@ def _load_exclude_mod():
     here = Path(__file__).resolve().parent
     candidates = [
         here / "pack_exclude.py",
-        here.parents[2] / "governance" / "scripts" / "pack_exclude.py",
+        here.parent / "scripts" / "pack_exclude.py",  # governance/pack -> governance/scripts
     ]
     for c in candidates:
         if c.is_file():

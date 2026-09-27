@@ -70,10 +70,10 @@ flowchart LR
 | **变更门禁** | `governance/rules/skill-governance.md`、`upgrade-dual-agent.md` | A 出七章 AP；人直接执行，或 B 只追加审核后再由人执行。人要求时按核对单对账实际改动 |
 | **技能缺口** | `references/gap-capture.md`、`outputs/skill-gaps/` | 明示「记成升级需求」先写后告知；不改正文；稿不进安装包 |
 | **影响分析** | `governance/impact-analysis/` | 标契约层 / 规则层是否受影响 |
-| **回归报告** | `tests/`、`governance/regression-reports/` | 正 / 反 / 旧能力各至少一条 |
+| **回归报告** | `tests/`、`governance/regression-reports/` | 每版同一组固定四问（装得上 / 唤得起 / 答得对 / 说得清）对照上一版，外加正 / 反 / 旧能力各至少一条 |
 | **打包发包** | `governance/pack/pack.py`、`pack.ini` | `{英文名}-Skill-v{版本}.zip`；不含治理目录 |
 | **发布审计** | `audit_release.py`、发布核对清单 | 版本一致、有基线、包内无治理目录 |
-| **结构校验** | `validate_skill.py`（audit 先跑） | frontmatter 必填、`references/` 引用存在、VERSION 与 skill.json 一致 |
+| **结构校验** | `validate_skill.py`（audit 先跑） | frontmatter 必填、`references/` 引用存在、VERSION 与 skill.json 一致、触发词三处一致、分发集无上一版号；每条规则有单点变异自测 |
 | **升级方案** | `governance/planning/upgrade-plan-v{版本}.md` | 每周期 1 个 AP；发布后删除 |
 | **一键脚本** | `governance/dev.ps1` | `sync` / `snapshot` / `audit` / `validate` / `pack` / `release` |
 | **仓骨架** | `SKILL.md`、`references/`、`LICENSE`、`README.md` | 可安装的 Skill 入口 |
@@ -118,7 +118,7 @@ flowchart LR
 | （初始化之后）「这版不行，回到上一版」 | 同上：回滚 |
 | （初始化之后）「装到助手里试用」 | 同上：你开口才拷 |
 
-同义口令：`开发一个 skill`、`新建技能`、`从零写 skill`、`脚手架`、`init skill`、`/init-skill`、`/new-skill`；收编：`收编这个 skill`、`adopt skill`、`/skill-devkit adopt`。
+触发：`初始化skill`、`初始化技能`、`初始化技能仓库`、`开发一个skill`、`开发一个技能`、`新建skill`、`新建技能`、`创建skill`、`创建技能`、`收编skill`、`收编这个skill`、`init skill`、`scaffold skill`、`adopt skill`、`/skill-devkit`、`/skill-devkit init`、`/init-skill`、`/new-skill`、`/skill-devkit adopt`。与 `SKILL.md` 说明里的触发段相同（发版检查会比对）；更多同义说法（如「从零写skill」「脚手架skill」）见 `references/04-triggers.md`。
 
 ## 快速开始
 

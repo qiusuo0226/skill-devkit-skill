@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import re
 import subprocess
 import sys
@@ -13,6 +14,7 @@ from pack_exclude import load_excludes
 
 ROOT = Path(__file__).resolve().parents[2]
 FAILURES = []
+_CHILD_ENV = dict(os.environ, PYTHONIOENCODING="utf-8")
 
 
 def check(name: str, ok: bool, detail: str = "") -> None:
@@ -25,8 +27,8 @@ def check(name: str, ok: bool, detail: str = "") -> None:
         FAILURES.append(name)
 
 
-def _load_sets_via_pack():
-    """Load excludes the way pack.py does (import path may differ from this sibling)."""
+def _load_pack_module():
+    """Import pack.py the way it runs (governance/pack/pack.py first)."""
     here = Path(__file__).resolve().parent
     candidates = [
         ROOT / "governance" / "pack" / "pack.py",
@@ -40,7 +42,7 @@ def _load_sets_via_pack():
             continue
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
-        return mod.load_sets(ROOT)
+        return mod
     return None
 
 
@@ -90,10 +92,13 @@ def main() -> None:
             cwd=str(ROOT),
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=_CHILD_ENV,
         )
         check("validate_skill.py", proc.returncode == 0, f"exit {proc.returncode}")
-        if proc.stdout:
-            print(proc.stdout, end="")
+        for line in (proc.stdout or "").splitlines():
+            print(f"  {line}")  # indented: audit's own rule lines stay at column 0
         if proc.returncode != 0 and proc.stderr:
             print(proc.stderr, end="", file=sys.stderr)
 
@@ -102,8 +107,15 @@ def main() -> None:
 
     dirs, files, exts, empty_dirs = load_excludes(ROOT)
     check("pack.ini dirs not empty (no silent empty exclude)", not empty_dirs)
-    via_pack = _load_sets_via_pack()
+    pack_mod = _load_pack_module()
+    via_pack = pack_mod.load_sets(ROOT) if pack_mod is not None else None
     check("pack.py load_sets reachable", via_pack is not None)
+    if pack_mod is not None:
+        finder = getattr(pack_mod, "_load_exclude_mod", None)
+        check(
+            "pack.py found pack_exclude.py (no builtin fallback)",
+            callable(finder) and finder() is not None,
+        )
     if via_pack is not None:
         check(
             "pack.py and audit load_excludes agree",
@@ -133,6 +145,9 @@ def main() -> None:
             cwd=str(ROOT),
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
+            env=_CHILD_ENV,
         )
         check("tests/run_smoke.py", proc.returncode == 0, f"exit {proc.returncode}")
         if proc.returncode != 0:

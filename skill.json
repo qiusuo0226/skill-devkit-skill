@@ -1,9 +1,9 @@
 {
   "name": "skill-devkit",
   "displayName": "Skill 开发工具包",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "schemaVersion": "0.1.0",
-  "description": "空仓一次初始化，或收编已有无规范技能：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。不是业务项目管理。",
+  "description": "空仓一次初始化，或收编已有无规范技能：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。不是业务项目管理。触发：初始化skill、初始化技能、初始化技能仓库、开发一个skill、开发一个技能、新建skill、新建技能、创建skill、创建技能、收编skill、收编这个skill、init skill、scaffold skill、adopt skill、/skill-devkit、/skill-devkit init、/init-skill、/new-skill、/skill-devkit adopt。",
   "license": "MIT",
   "modes": [
     "author"
@@ -11,6 +11,11 @@
   "entry": "SKILL.md",
   "referencesDir": "references",
   "versionHistory": [
+    {
+      "version": "0.11.0",
+      "date": "2026-09-27",
+      "summary": "固定四问对照上一版；触发词三处一致与上一版号清零两条校验；检查器单点变异自测；pack.py 目标仓路径修复；审计子进程 UTF-8；方案与审核标可信度。"
+    },
     {
       "version": "0.10.1",
       "date": "2026-09-26",

@@ -1,5 +1,42 @@
 # Changelog
 
+## 0.11.0 — 2026-09-27
+
+发版把关从「条数够」改成「每版同题可比、规则自己被测过」，并修掉目标仓 `pack.ini` 被悄悄忽略。对照点 `v0.10.1`。来自需求稿 SG-20260927-001～004、006～008（005 不做）。人直接同意（未经 B）。
+
+### Fixed
+
+- 种子 `pack.py`：在目标仓 `governance/pack/` 里找不到 `governance/scripts/pack_exclude.py`（旧路径 `here.parents[2]` 指到仓的上一级），`pack.ini` 改动被忽略、退回内置名单。改为 `here.parent / "scripts" / "pack_exclude.py"`。本包自己用同目录布局，不受影响
+- 种子 `audit_release.py`：新规则「pack.py found pack_exclude.py (no builtin fallback)」；默认 `pack.ini` 时原「agree」检查会把上面的错遮住
+- 种子 `audit_release.py` 两处子进程与本包 `tests/test_skill_roots.py`：`encoding="utf-8", errors="replace"`，子进程 `PYTHONIOENCODING=utf-8`（中文 Windows cp936 解码）。audit 转印的 validate 输出改为缩进两格
+
+### Added
+
+- `validate_skill.py` 新规则「trigger phrases consistent」：`SKILL.md` description、README（「触发：」或「同义口令：」）、`skill.json` description 三处触发集合相同；只按「、」切分；三处都没有算通过
+- `validate_skill.py` 新规则「no previous version in distribution set」：上一版号取 `CHANGELOG.md` 第一个不等于当前 `VERSION` 的标题；按 `pack.ini` 取分发集；不扫 `CHANGELOG.md` 与 `skill.json` 的 `versionHistory`、`schemaVersion`
+- `assets/seed/test_checker_mutations.py` → 目标仓 `tests/test_checker_mutations.py`（本包 `tests/` 同内容）：按目标仓布局搭合格样仓，validate 12 条规则 14 例、audit 19 条规则 20 例单点变异，各由对应规则抓到；覆盖守卫；pack.ini dirs / files / exts 生效；旧路径缺陷专门用例；非 GBK 子进程输出
+- RR 模板「固定四问」表（装得上 / 唤得起 / 答得对 / 说得清）+「上一版结果」；固定输入在 `tests/README.md`
+- 方案模板与 A / B 规则：可信度标签 已验证 / 推断 / 参考；推断只进 AP-5「推断待验证」；B 只凭推断不能判阻塞
+- `tests/upgrade-roles.md` U6、N15、N16
+
+### Changed
+
+- 种子 `skill-governance.md` §2 第 6 步：固定四问 + 正 / 反 / 旧；§3 可信度标签
+- 种子 `upgrade-dual-agent.md` §2 第 5 步、§4 #3 与说明
+- `release-checklist.md` 两项；种子 `tests-README.md` 固定四问占位；`test_pack_exclude.py` 加目标仓布局用例；`test_validate_skill.py` 加四条正例
+- `references/01-init.md` §5 拷贝表与目录树、`references/02-adopt.md` 补缺清单加 `test_checker_mutations.py`
+- 本包 README「同义口令」行改为与 `SKILL.md` 相同的「触发：」行；能力表回归报告、结构校验两行
+- 本包 `skill.json` description 末尾补同一段触发（核心契约，只加不删）
+- 示例 12：改开口说法要同时改 README 触发行与 `skill.json` description
+
+### 测了什么
+
+`python assets/seed/validate_skill.py --skill-root .`（12 条全 PASS）；`python tests/run_smoke.py`（23 tests，原 13 条 + 新 10 条）；`python assets/seed/pack.py --skill-root . --dry-run`（83 files，无 governance/.git/AGENTS.md）。反例：把 `pack.py` 改回旧路径、给 validate 加一条没配用例的假规则、让两条新规则恒真、换回 0.10.1 的 audit，冒烟都变红。按 §5 拷贝表模拟全新初始化并跑 `audit_release.py` 全 PASS。Linux 与用户 Windows（Python 3.13，cp936）两边都跑。本包根不跑 `audit_release.py`，不打基线。
+
+### 怎么回滚
+
+`git checkout v0.10.1`。本包无 `governance/baselines/`。已建好的目标仓不自动更新；personal-graph 需手工修 `governance/pack/pack.py`，见 `upgrade-to-0.11.0.md`。
+
 ## 0.10.1 — 2026-09-26
 
 核对升级效果的三处句子补齐。对照点 `v0.10.0`。来自 0.10.0 效果核对的三条方案外。B1、B2 均为通过-待修订，已并入方案 1.2 后执行。

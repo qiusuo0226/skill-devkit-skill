@@ -19,7 +19,7 @@
 3. 建 CR：governance/change-requests/CR-YYYYMMDD-NNN.md（写明执行授权：人直接同意 / B 通过后人同意 / 人覆盖 B）
 4. 建 IA：governance/impact-analysis/IA-YYYYMMDD-NNN.md
 5. 按最小范围改文件
-6. 回归（正 / 反 / 旧能力各至少 1 条）→ RR
+6. 回归 → RR：固定四问（装得上 / 唤得起 / 答得对 / 说得清，输入见 tests/README.md，填上一版结果）+ 正 / 反 / 旧能力各至少 1 条
 7. 改根目录 VERSION → python governance/scripts/sync_version.py
 8. 更新 CHANGELOG.md
 9. 写升级记录：governance/migrations/upgrade-to-{版本}.md
@@ -37,6 +37,8 @@
 模板：`governance/templates/upgrade-plan.md`。必须含：变更概述、影响点表、策略与被否决的替代方案、修改范围清单、回归计划、风险与回滚、版本影响。
 
 命名只能是 `upgrade-plan-v{版本}.md`。禁止拆成多个 AP。
+
+每条结论带可信度标签：**已验证**（本次跑过或读过）/ **推断**（没跑过）/ **参考**（用户转述或外部资料）。推断只能写进 AP-5 当待验证项，不能当事实写进 AP-2、AP-4 或 CR。B 审核的发现同样带标签。
 
 ## 4. 单一目标
 

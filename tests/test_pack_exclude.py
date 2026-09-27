@@ -76,6 +76,36 @@ class PackExcludeTests(unittest.TestCase):
         via_pack = pack_mod.load_sets(repo)
         self.assertEqual(via_loader[:3], via_pack[:3])
 
+    def test_pack_py_target_layout_honors_custom_ini(self):
+        """Sibling layout above hides the legacy parents[2] path bug; use governance/pack + governance/scripts."""
+        import shutil
+
+        repo = Path(__file__).resolve().parents[1]
+        src_pack = repo / "assets" / "seed" / "pack.py"
+        if not src_pack.is_file():
+            src_pack = repo / "governance" / "pack" / "pack.py"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "governance" / "pack").mkdir(parents=True)
+            (root / "governance" / "scripts").mkdir(parents=True)
+            shutil.copy2(src_pack, root / "governance" / "pack" / "pack.py")
+            shutil.copy2(Path(self.mod.__file__), root / "governance" / "scripts" / "pack_exclude.py")
+            (root / "governance" / "pack.ini").write_text(
+                "[exclude]\ndirs = .git, governance, tests, outputs, extra_dir\n"
+                "files = AGENTS.md\nexts = .pyc\n",
+                encoding="utf-8",
+            )
+            spec = importlib.util.spec_from_file_location("pack_mod_target", root / "governance" / "pack" / "pack.py")
+            pack_mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(pack_mod)
+            self.assertIsNotNone(pack_mod._load_exclude_mod(), "pack.py cannot find governance/scripts/pack_exclude.py")
+            buf = io.StringIO()
+            with redirect_stderr(buf):
+                via_pack = pack_mod.load_sets(root)
+            self.assertNotIn("WARN", buf.getvalue())
+            self.assertIn("extra_dir", via_pack[0])
+            self.assertEqual(via_pack[:3], self.mod.load_excludes(root)[:3])
+
     def test_ini_dirs_honored(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

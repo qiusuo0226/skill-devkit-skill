@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""validate_skill.py: this repo PASS; tempfile missing name / version / ref."""
+"""validate_skill.py: this repo PASS; tempfile missing name / version / ref; trigger + previous-version positives.
+
+Single-point negatives for every rule live in test_checker_mutations.py.
+"""
 from __future__ import annotations
 
 import importlib.util
@@ -88,6 +91,59 @@ class ValidateSkillTests(unittest.TestCase):
             _write_skill(root, body="# Demo\nSee references/a.md\n")
             failed = self._failed_names(root)
         self.assertNotIn("referenced references/ files exist", failed)
+
+    def test_trigger_forms_pass(self):
+        """Folded YAML, a phrase containing '，', README 同义口令 with backticks."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "SKILL.md").write_text(
+                "---\nname: demo\ndescription: >\n  演示。触发：我是……、关于我，你知道什么、\n"
+                "  生成 画像。其它说明。\n---\n# Demo\n",
+                encoding="utf-8",
+            )
+            (root / "VERSION").write_text("0.1.0\n", encoding="utf-8")
+            (root / "skill.json").write_text(
+                json.dumps(
+                    {"name": "demo", "version": "0.1.0",
+                     "description": "演示。触发：我是……、关于我，你知道什么、 生成 画像。其它说明。"},
+                    ensure_ascii=False,
+                ),
+                encoding="utf-8",
+            )
+            (root / "README.md").write_text(
+                "# Demo\n\n同义口令：`我是……`、`关于我，你知道什么`、`生成 画像`。\n", encoding="utf-8"
+            )
+            failed = self._failed_names(root)
+        self.assertNotIn("trigger phrases consistent", failed)
+
+    def test_no_trigger_anywhere_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _write_skill(root)
+            (root / "README.md").write_text("# Demo\n", encoding="utf-8")
+            failed = self._failed_names(root)
+        self.assertNotIn("trigger phrases consistent", failed)
+
+    def test_previous_version_only_in_history_schema_and_changelog_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _write_skill(root, version="0.2.0", sj_ver="0.2.0")
+            data = json.loads((root / "skill.json").read_text(encoding="utf-8"))
+            data["versionHistory"] = [{"version": "0.2.0"}, {"version": "0.1.0"}]
+            data["schemaVersion"] = "0.1.0"
+            (root / "skill.json").write_text(json.dumps(data), encoding="utf-8")
+            (root / "CHANGELOG.md").write_text("# Changelog\n\n## 0.2.0\n\n## 0.1.0\n\n对照 0.1.0\n", encoding="utf-8")
+            (root / "README.md").write_text("# Demo 0.2.0，不是 0.1.00 也不是 10.1.0\n", encoding="utf-8")
+            failed = self._failed_names(root)
+        self.assertNotIn("no previous version in distribution set", failed)
+
+    def test_single_changelog_heading_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _write_skill(root)
+            (root / "CHANGELOG.md").write_text("# Changelog\n\n## 0.1.0\n", encoding="utf-8")
+            failed = self._failed_names(root)
+        self.assertNotIn("no previous version in distribution set", failed)
 
 
 if __name__ == "__main__":
