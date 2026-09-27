@@ -1,9 +1,9 @@
 {
   "name": "skill-devkit",
   "displayName": "Skill 开发工具包",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "schemaVersion": "0.1.0",
-  "description": "空仓一次初始化，或收编已有无规范技能：版本控制、冻结基线、升级记录、变更门禁、触发词、一键打包、发布审计。问完即落盘，本包退场。不是业务项目管理。触发：初始化skill、初始化技能、初始化技能仓库、开发一个skill、开发一个技能、新建skill、新建技能、创建skill、创建技能、收编skill、收编这个skill、init skill、scaffold skill、adopt skill、/skill-devkit、/skill-devkit init、/init-skill、/new-skill、/skill-devkit adopt。",
+  "description": "从空文件夹新建一个 Agent Skill 技能仓库，或把已有、还没管起来的技能一次性接管：搭好版本号、基线、更新记录、改动审核、触发词、打包和发布前检查，之后按仓里写好的规则升级。不是业务项目管理。触发：初始化技能仓库、初始化技能、初始化skill、新建一个技能、新建skill、创建技能、创建skill、开发一个技能、开发一个skill、帮我做个skill、建个skill仓库、把这个技能管起来、接管这个技能、收编这个skill、init skill、adopt skill、/skill-devkit、/init-skill、/new-skill、/skill-devkit adopt。",
   "license": "MIT",
   "modes": [
     "author"
@@ -11,6 +11,11 @@
   "entry": "SKILL.md",
   "referencesDir": "references",
   "versionHistory": [
+    {
+      "version": "0.11.1",
+      "date": "2026-09-27",
+      "summary": "说明与触发词改成中文作者会说的话：先英文后中文、写明什么时候用、去掉「用完即走」；触发 20 条三处一致；补「接管这个技能 / 把这个技能管起来」。"
+    },
     {
       "version": "0.11.0",
       "date": "2026-09-27",

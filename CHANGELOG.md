@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.11.1 — 2026-09-27
+
+本包说明与触发词改成中文作者会说的话。对照点 `v0.11.0`。用户对比 Qoder 市场技能后认为本包唤不起。人直接同意（未经 B）。
+
+### Changed
+
+- `SKILL.md` description：先英文后中文；写明什么时候用（空文件夹新建、接管还没管起来的技能）；去掉「Use once, then this kit exits」「本包退场」，改为「之后按仓里写好的规则升级」；负路由句保留。725 字符
+- 触发 19 → 20 条，`SKILL.md`、README、`skill.json` 三处同集。新增：新建一个技能、帮我做个skill、建个skill仓库、把这个技能管起来、接管这个技能。去掉：新建技能（由「新建一个技能」替代）、收编skill（与「收编这个skill」重复）、scaffold skill（术语）、/skill-devkit init（与 /skill-devkit 重复）。去掉的仍在 `references/04-triggers.md`
+- `metadata.short-description` 去掉「用完即走」
+- `SKILL.md` 开篇两句、README 开篇粗体句、英文副标题、「写完本包就退场」一句：改为准确描述「建好之后不再经过本包，升级走那个仓自己的文件」
+- 路由表：初始化行补「帮我做个 skill / 建个 skill 仓库」，收编行补「接管这个技能 / 把这个技能管起来」；`references/04-triggers.md`、`references/02-adopt.md` 同步
+- `skill.json` description 换成新中文句 + 新触发
+- 示例 17 照着说补「把这个技能管起来。」；`tests/adopt.md` 加 P4、N8
+- 0.11.0 效果核对结论行补进 `RR-20260927-0.11.0.md`，核对单删除
+
+### 测了什么
+
+`python assets/seed/validate_skill.py --skill-root .`（12 条全 PASS，触发 20 条同集，0.11.0 零命中）；`python tests/run_smoke.py`（23 tests）；`python assets/seed/pack.py --skill-root . --dry-run`（83 files）。YAML 用 PyYAML 解析通过。对话未跑 LLM。
+
+### 怎么回滚
+
+`git checkout v0.11.0`。无需迁移工作区。
+
 ## 0.11.0 — 2026-09-27
 
 发版把关从「条数够」改成「每版同题可比、规则自己被测过」，并修掉目标仓 `pack.ini` 被悄悄忽略。对照点 `v0.10.1`。来自需求稿 SG-20260927-001～004、006～008（005 不做）。人直接同意（未经 B）。

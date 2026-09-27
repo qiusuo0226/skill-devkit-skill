@@ -6,11 +6,11 @@
 
 ## 初始化
 
-初始化skill、初始化技能、初始化一个skill、初始化这个skill、初始化技能仓库、初始化开发仓、初始化当前目录、把这个文件夹初始化成skill、把当前目录初始化为skill、在这个目录开发skill、空目录初始化skill、开发一个skill、开发一个技能、开发新skill、开发新技能、开始开发skill、从零开发skill、从零写skill、开始写skill、新建skill、新建技能、创建skill、创建技能、创建新skill、创建新技能、建一个skill、搭一个skill、搭技能仓库、生成skill骨架、生成技能骨架、脚手架skill、新skill、新技能、init skill、initialize skill、scaffold skill、bootstrap skill、create a skill、new skill、develop a skill、start a skill、/skill-devkit、/skill-devkit init、/init-skill、/new-skill。
+初始化skill、初始化技能、初始化一个skill、初始化这个skill、初始化技能仓库、初始化开发仓、初始化当前目录、把这个文件夹初始化成skill、把当前目录初始化为skill、在这个目录开发skill、空目录初始化skill、开发一个skill、开发一个技能、开发新skill、开发新技能、开始开发skill、从零开发skill、从零写skill、开始写skill、新建skill、新建技能、创建skill、创建技能、新建一个技能、创建新skill、创建新技能、建一个skill、帮我做个skill、建个skill仓库、搭一个skill、搭技能仓库、生成skill骨架、生成技能骨架、脚手架skill、新skill、新技能、init skill、initialize skill、scaffold skill、bootstrap skill、create a skill、new skill、develop a skill、start a skill、/skill-devkit、/skill-devkit init、/init-skill、/new-skill。
 
 ## 收编
 
-收编skill、收编这个skill、收编已有skill、把这个skill收编进规范、把现有skill纳入基线、改造现有skill、规范化现有skill、给现有skill加基线、adopt skill、retrofit skill、/skill-devkit adopt。
+收编skill、收编这个skill、接管这个技能、把这个技能管起来、收编已有skill、把这个skill收编进规范、把现有skill纳入基线、改造现有skill、规范化现有skill、给现有skill加基线、adopt skill、retrofit skill、/skill-devkit adopt。
 
 ## 恢复（不进 description）
 
