@@ -13,8 +13,8 @@
 ## 2. 强制流程
 
 ```
-1. 写 AP：governance/planning/upgrade-plan-v{目标版本}.md（每周期 1 个；A 出方案，七章齐全）
-2. 路径 H：用户说「同意执行」或「执行升级」（可无 B 节）
+1. 写 AP 之前先按 upgrade-dual-agent.md「对齐远程」做。对不齐就停。然后写 governance/planning/upgrade-plan-v{目标版本}.md（每周期 1 个；A 出方案，七章齐全）
+2. 路径 H：用户说「同意执行」或「执行升级」（可无 B 节）。执行前再按 upgrade-dual-agent.md「对齐远程」做一遍；与方案快照的 git HEAD 不一致则停，不建 CR、不改文件
    或路径 B：新对话「你是 Agent B，审核该 AP」→ 文末追加 B 节 → 仍须用户「同意执行」
 3. 建 CR：governance/change-requests/CR-YYYYMMDD-NNN.md（写明执行授权：人直接同意 / B 通过后人同意 / 人覆盖 B）
 4. 建 IA：governance/impact-analysis/IA-YYYYMMDD-NNN.md
@@ -27,7 +27,7 @@
 11. 删除该版本 AP（含文末 B 审核节；内容已固化到 CR / CHANGELOG / 基线 / upgrade-to，不另存 B 副本）。此时已有的同版本 `upgrade-effect-v{版本}.md`：文首结论一行写入当版 RR 后一并删除。发版后才写出的核对单不靠这一步，见 `upgrade-dual-agent.md` 效果核对节
 12. python governance/scripts/snapshot_baseline.py（基线只增不改）
 13. python governance/pack/pack.py --skill-root .
-14. git tag v{版本}（有 git 才做；不擅自 push）
+14. git tag v{版本}（有 git 才做；不擅自 push）。用户明确要推、且这次要推的 tag 多于一个时，对每一个远程分开做。同一个远程按这个顺序逐个推，换远程时从最旧的一个重新推起：先比对这些 tag 指向的提交，祖先上的先推、后代上的后推；指向同一提交则按语义化版本从旧到新，不要按 tag 名字的字典序。一个 tag 一条推送命令；上一个 tag 用 git ls-remote <remote> refs/tags/<name> 已在该远程可见，再推下一个。本地还没有的 tag，轮到它才创建，创建后先推再处理下一个。禁止先把本次要推的 tag 在本地全部打好再一起推。禁止 git push --tags，禁止 --follow-tags，禁止一条命令里带上多个 tag。已有本地 tag 不删、不改、不重打。没点名的 tag 不跟着推。
 ```
 
 未确认方案前禁止改 `SKILL.md`、`references/`、`skill.json`。

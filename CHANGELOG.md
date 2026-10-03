@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.11.2 — 2026-10-03
+
+写方案和执行前先对齐远程。多个 tag 推远程时按版本从旧到新逐个推。对照点 `v0.11.1`。0.10.2 那次做在已过时的本地上，已回退，不作为本版基线。
+
+### Changed
+
+- `upgrade-dual-agent.md` 增加「对齐远程」：写方案、审核、执行前先 fetch。各远程默认分支尖端必须相同。本地落后则快进。超前或分叉则停，不 merge、不 rebase、不 reset、不强推
+- 种子 `skill-governance.md` §2 第 1、2 步指向这一节。第 14 步仍先打本地 `v{版本}`，不擅自 push。用户明确要推且多于一个 tag 时，每个远程从旧到新逐个推
+- 发布核对清单只加两行指针
+
+### 测了什么
+
+固定四问见当版 RR，对照 0.11.1。另实读「对齐远程」和第 14 步。`python assets/seed/validate_skill.py --skill-root .`；`python tests/run_smoke.py`；`python assets/seed/pack.py --skill-root . --dry-run`。对话未跑。本包根不跑 `audit_release.py`，不打基线。
+
+### 怎么回滚
+
+`git checkout v0.11.1`。本包无 `governance/baselines/`。已建好的目标仓不自动更新。新初始化会带上新种子。
+
 ## 0.11.1 — 2026-09-27
 
 本包说明与触发词改成中文作者会说的话。对照点 `v0.11.0`。用户对比 Qoder 市场技能后认为本包唤不起。人直接同意（未经 B）。

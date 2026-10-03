@@ -27,4 +27,6 @@
 ## Git
 
 - [ ] 已提交
+- [ ] 写方案和执行前已按 upgrade-dual-agent.md「对齐远程」与远程默认分支尖端一致
 - [ ] tag 为 `v{版本}`（不擅自 push）
+- [ ] 本次若推多个 tag：已按 governance/rules/skill-governance.md §2 第 14 步逐个推（顺序只以那一步为准）
