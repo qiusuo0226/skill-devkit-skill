@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.11.3 — 2026-10-12
+
+审核升级方案时，审核节必须写入方案文件并回读。只在对话里给出审核节算失败。对照点 `v0.11.2`。B1 结语为通过-可执行，人说「执行升级」。
+
+### Changed
+
+- 种子 `upgrade-dual-agent.md`：B 用编辑工具把 `## B{N} 审核结果` 追加到方案末尾，追加后回读。末尾没有这一节时，第一句是「没有写入」加路径。对话不贴审核节全文
+- A 写方案时，文末必须留下模板里的明文审核指令，不得放进 HTML 注释
+- `assets/templates/upgrade-plan.md` 删掉 HTML 注释，换成这段明文
+- 本仓路由开一道窄缝：点名已存在的 `governance/planning/upgrade-plan-v*.md` 时，只追加审核节并回读，不改种子，不执行升级。写方案、Agent A、执行升级、核对效果仍然停止
+- 已建好的技能仓不自动变更
+
+### 测了什么
+
+固定四问见当版 RR，对照 0.11.2。另实读 §4 第 3 步、方案模板文末、`SKILL.md` 与 `references/00-core.md`。`python assets/seed/validate_skill.py --skill-root .`；`python tests/run_smoke.py`；`python assets/seed/pack.py --skill-root . --dry-run`。U2、U7、N17 的对话未跑。本包根不跑 `audit_release.py`，不打基线。
+
+### 怎么回滚
+
+`git checkout v0.11.2`。本包无 `governance/baselines/`。已建好的目标仓不自动更新。新初始化会带上新种子。
+
 ## 0.11.2 — 2026-10-03
 
 写方案和执行前先对齐远程。多个 tag 推远程时按版本从旧到新逐个推。对照点 `v0.11.1`。0.10.2 那次做在已过时的本地上，已回退，不作为本版基线。

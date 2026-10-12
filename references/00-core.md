@@ -31,6 +31,8 @@
 | 半套收编（D） | `02-adopt.md` 恢复节 |
 | 已规范（E） / 非空非技能 / 升级 / Agent A 或 B / 检查升级效果 / 检查开发仓实际升级效果 / 升级做完了核对一下 | 停止，不要写盘。已规范仓读它自己的治理文件 |
 
+唯一例外：工作区是本包，人点名的文件是本包已存在的 `governance/planning/upgrade-plan-v*.md`。此时不停止，整份加载 `assets/seed/upgrade-dual-agent.md`，只按 §4 把审核节追加到该文件并回读。不改种子，不执行升级。没点名这种已存在文件时，Agent B 仍停止。写方案、Agent A、执行升级、打基线、发版、核对效果仍停止，不要写盘。
+
 探测见 `references/03-skill-roots.md`。
 
 ## 未确认不写盘

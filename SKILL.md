@@ -48,7 +48,8 @@ metadata:
 | 同上 | 空 | 停止，指路初始化 |
 | 同上 | 已规范（E） | 停止，已规范 |
 | 同上 | 非空无 `SKILL.md` | 停止 |
-| 升级 / 你是 Agent A / 你是 Agent B / 写 AP / 打基线 / 发版 / 执行升级 / 检查升级效果 / 检查开发仓实际升级效果 / 升级做完了核对一下 | 任意 | 停止。已初始化或收编的仓读它自己的 `governance/rules/skill-governance.md` 与 `upgrade-dual-agent.md` |
+| 你是 Agent B，且点名的文件是本包已存在的 `governance/planning/upgrade-plan-v*.md` | 本包 | 不停止。整份加载 `assets/seed/upgrade-dual-agent.md`，只把审核节追加到该文件末尾并回读。不改种子，不执行升级 |
+| 升级 / 你是 Agent A / 你是 Agent B / 写 AP / 打基线 / 发版 / 执行升级 / 检查升级效果 / 检查开发仓实际升级效果 / 升级做完了核对一下 | 任意 | 停止。已初始化或收编的仓读它自己的 `governance/rules/skill-governance.md` 与 `upgrade-dual-agent.md`。本包上没点名已存在方案文件时，「你是 Agent B」也停止 |
 
 硬闸见 `references/00-core.md`。初始化正文 `01-init.md`。收编正文 `02-adopt.md`。探测 `03-skill-roots.md`。同义开口 `04-triggers.md`。
 

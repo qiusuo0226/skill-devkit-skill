@@ -15,7 +15,7 @@
 ```
 1. 写 AP 之前先按 upgrade-dual-agent.md「对齐远程」做。对不齐就停。然后写 governance/planning/upgrade-plan-v{目标版本}.md（每周期 1 个；A 出方案，七章齐全）
 2. 路径 H：用户说「同意执行」或「执行升级」（可无 B 节）。执行前再按 upgrade-dual-agent.md「对齐远程」做一遍；与方案快照的 git HEAD 不一致则停，不建 CR、不改文件
-   或路径 B：新对话「你是 Agent B，审核该 AP」→ 文末追加 B 节 → 仍须用户「同意执行」
+   或路径 B：新对话「你是 Agent B，审核该 AP」→ 用编辑工具在文末追加 B 节并回读该文件；只在对话里给出审核节算失败。做法以 upgrade-dual-agent.md §4 第 3 步为准 → 仍须用户「同意执行」
 3. 建 CR：governance/change-requests/CR-YYYYMMDD-NNN.md（写明执行授权：人直接同意 / B 通过后人同意 / 人覆盖 B）
 4. 建 IA：governance/impact-analysis/IA-YYYYMMDD-NNN.md
 5. 按最小范围改文件
